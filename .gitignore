@@ -1,0 +1,16 @@
+# Dữ liệu & Database
+data/
+*.duckdb
+*.db
+*.parquet
+*.csv
+*.gz
+*.zip
+
+# Môi trường & Cache
+.env
+__pycache__/
+.pytest_cache/
+.venv/
+.idea/
+.vscode/

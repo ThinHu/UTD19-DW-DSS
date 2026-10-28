@@ -1,0 +1,30 @@
+rules:
+  - id: "RULE_NULL_FLOW"
+    bit_value: 1
+    name: "Lưu lượng bị NULL"
+    description: "Cột flow không có giá trị"
+
+  - id: "RULE_NEGATIVE_FLOW"
+    bit_value: 2
+    name: "Lưu lượng âm"
+    description: "Cột flow có giá trị nhỏ hơn 0"
+
+  - id: "RULE_FLOW_MAX"
+    bit_value: 4
+    name: "Vượt lưu lượng tối đa"
+    description: "Flow vượt quá ngưỡng FLOW_MAX (ví dụ 3500 veh/h)"
+
+  - id: "RULE_INTERVAL_OOR"
+    bit_value: 8
+    name: "Interval ngoài phạm vi ngày"
+    description: "Interval < 0 hoặc > 86400 giây"
+
+  - id: "RULE_OCC_OOR"
+    bit_value: 16
+    name: "Tỷ lệ chiếm dụng ngoài phạm vi"
+    description: "Occupancy < 0 hoặc > 100%"
+
+  - id: "RULE_SPEED_OOR"
+    bit_value: 32
+    name: "Vận tốc ngoài ngưỡng thực tế"
+    description: "Speed < 0 hoặc > 200 km/h"

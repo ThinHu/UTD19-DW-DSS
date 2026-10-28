@@ -1,0 +1,31 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "utd19_dw"
+version = "0.1.0"
+description = "UTD19 Traffic Data Warehouse and Decision Support System Engine"
+authors = [{ name = "Your Name", email = "your.email@example.com" }]
+dependencies = [
+    "duckdb>=0.9.0",
+    "pandas>=2.0.0",
+    "pyarrow>=14.0.0",
+    "pyyaml>=6.0",
+    "python-dotenv>=1.0.0",
+    "matplotlib>=3.7.0"
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.0.0",
+    "ruff>=0.1.0"
+]
+
+[tool.setuptools]
+packages = ["utd19_dw"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+pythonpath = ["."]

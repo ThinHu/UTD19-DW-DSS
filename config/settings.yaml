@@ -1,0 +1,24 @@
+project:
+  name: "utd19_dw"
+  version: "0.1.0"
+  cities:
+    - "luzern"
+  date_range:
+    start_date: "2015-01-01"   # Đã chỉnh về 2015 theo đúng UTD19 Luzern
+    end_date: "2015-06-30"
+  smoke_rows: null
+
+paths:
+  db_filename: "utd19.duckdb"
+
+duckdb:
+  memory_limit: "4GB"
+  threads: 4
+
+data_warehouse:
+  interval_oor_mode: "reject"   # 'reject' (đẩy vào quarantine) hoặc 'rollover'
+  coverage_min: 0.0
+  flow_max: 3500
+  exclude_rules_in_mart:
+    - "M-02"                    # Đảm bảo mã này khớp với id trong dq_rules.yaml
+    - "M-09"
