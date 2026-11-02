@@ -6,7 +6,7 @@ build-backend = "setuptools.build_meta"
 name = "utd19_dw"
 version = "0.1.0"
 description = "UTD19 Traffic Data Warehouse and Decision Support System Engine"
-authors = [{ name = "Your Name", email = "your.email@example.com" }]
+authors = [{ name = "Nhóm BTL CO4031 HK261 — Vinh, Ly, Hữu" }]
 dependencies = [
     "duckdb>=0.9.0",
     "pandas>=2.0.0",
@@ -19,11 +19,19 @@ dependencies = [
 [project.optional-dependencies]
 dev = [
     "pytest>=7.0.0",
-    "ruff>=0.1.0"
+    "ruff>=0.1.0",
+    "httpx>=0.25"
+]
+dss = [
+    "numpy>=1.26",
+    "scikit-learn>=1.3",
+    "joblib>=1.3",
+    "fastapi>=0.110",
+    "uvicorn>=0.27"
 ]
 
 [tool.setuptools]
-packages = ["utd19_dw"]
+packages = ["utd19_dw", "utd19_dss"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

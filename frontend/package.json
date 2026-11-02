@@ -1,0 +1,17 @@
+{
+  "name": "utd19-dss-frontend",
+  "private": true,
+  "version": "5.0.0",
+  "type": "module",
+  "scripts": { "dev": "vite", "build": "vite build", "preview": "vite preview" },
+  "dependencies": {
+    "@fontsource/be-vietnam-pro": "5.0.8",
+    "@fontsource/jetbrains-mono": "5.0.18",
+    "leaflet": "1.9.4",
+    "react": "18.3.1",
+    "react-dom": "18.3.1",
+    "react-leaflet": "4.2.1",
+    "recharts": "2.12.7"
+  },
+  "devDependencies": { "@vitejs/plugin-react": "4.3.1", "vite": "5.4.8" }
+}

@@ -12,19 +12,24 @@ rules:
   - id: "RULE_FLOW_MAX"
     bit_value: 4
     name: "Vượt lưu lượng tối đa"
-    description: "Flow vượt quá ngưỡng FLOW_MAX (ví dụ 3500 veh/h)"
+    description: "Flow vượt FLOW_MAX (data_warehouse.flow_max, xe/giờ/làn; gồm giá trị sentinel 99999) — giá trị bị đặt NULL, giữ cờ"
 
   - id: "RULE_INTERVAL_OOR"
     bit_value: 8
     name: "Interval ngoài phạm vi ngày"
-    description: "Interval < 0 hoặc > 86400 giây"
+    description: "Interval < 0 hoặc ≥ 86400 giây — dòng bị cách ly (etl.quarantine), không gắn cờ"
 
   - id: "RULE_OCC_OOR"
     bit_value: 16
     name: "Tỷ lệ chiếm dụng ngoài phạm vi"
-    description: "Occupancy < 0 hoặc > 100%"
+    description: "Occupancy < 0 hoặc > 100% (gồm sentinel 999,99) — giá trị bị đặt NULL, giữ cờ"
 
   - id: "RULE_SPEED_OOR"
     bit_value: 32
     name: "Vận tốc ngoài ngưỡng thực tế"
-    description: "Speed < 0 hoặc > 200 km/h"
+    description: "Speed < 0 hoặc > 200 km/h (dự phòng: UTD19 Luzern không có speed nên chưa dùng)"
+
+  - id: "RULE_DUPLICATE"
+    bit_value: 1024
+    name: "Trùng khóa đo"
+    description: "Nhiều dòng cùng (city, detid, day, interval); giữ dòng nạp sau cùng, các dòng còn lại vào etl.quarantine"

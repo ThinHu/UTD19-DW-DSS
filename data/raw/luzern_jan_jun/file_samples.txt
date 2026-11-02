@@ -1,0 +1,20 @@
+===== SAMPLES FOR LUZERN (JAN - JUN) =====
+Total detectors with measurements: 158
+Total rows processed: 13,166,423
+Date range: 2015-01-01 -> 2015-06-30
+
+--- detector_summary.csv (head 5) ---
+           detid   rows  days_with_data   first_day    last_day  error_rows  occ_non_null  flow_non_null  flow_zero_rows  error_pct  occ_missing_pct  flow_zero_pct  mean_occ  mean_flow  coverage_pct_vs_480_per_day
+0   ig11FD100_D3  86724             181  2015-01-01  2015-06-30       19589         86724          86724            8197      22.59              0.0           9.45   20.5932    1639.03                        99.82
+1  ig11FD100_D31  86725             181  2015-01-01  2015-06-30        9258         86725          86725            1456      10.68              0.0           1.68    0.1267     374.75                        99.82
+2  ig11FD100_D32  86725             181  2015-01-01  2015-06-30       14656         86725          86725            4110      16.90              0.0           4.74    0.1034     351.57                        99.82
+3  ig11FD100_D33  86725             181  2015-01-01  2015-06-30        6769         86725          86725            1093       7.81              0.0           1.26    0.1461     425.64                        99.82
+4  ig11FD100_D34  86725             181  2015-01-01  2015-06-30        6834         86725          86725            1912       7.88              0.0           2.20    0.1084     235.75                        99.82
+
+--- detector_location_profile.csv (head 5) ---
+           detid      long        lat           road   fclass  linkid       pos limit   rows  days_with_data  error_pct nearest_neighbor_detid  nearest_neighbor_km  n_within_0_5km  n_within_1km  n_within_2km  dup_coord_flag
+0  ig11FD116_D20  8.297066  47.052141   Baselstrasse  primary    91.0  0.042477     0  86796             181      13.33          ig11FD116_D15               0.0042              33            89           149            True
+1  ig11FD116_D15  8.297038  47.052108   Baselstrasse  primary    92.0  0.043321     0  86796             181      11.16          ig11FD116_D20               0.0042              33            89           149            True
+2  ig11FD116_D35  8.297114  47.052192   Baselstrasse  primary    90.0  0.223624     0  86796             181       7.68          ig11FD116_D34               0.0036              33            89           149            True
+3  ig11FD116_D34  8.297129  47.052223   Baselstrasse  primary    89.0  0.068332     0  86796             181     100.00          ig11FD116_D35               0.0036              32            89           149            True
+4  ig11FD116_D30  8.298206  47.052388  Gütschstrasse  primary    83.0  0.034252    50  86796             181      72.47          ig11FD116_D25               0.0030              33            91           149            True

@@ -1,4 +1,5 @@
-CREATE OR REPLACE TABLE stg.links_raw AS 
+-- Staging: nạp nguyên dạng (chuỗi) các tệp hình học link UTD19 (links*.csv).
+CREATE OR REPLACE TABLE stg.links_raw AS
 SELECT * FROM read_csv('{DATA_RAW_DIR}/*link*.csv', all_varchar=true, header=true, ignore_errors=true);
 
 ALTER TABLE stg.links_raw ADD COLUMN IF NOT EXISTS "citycode" VARCHAR DEFAULT 'luzern';

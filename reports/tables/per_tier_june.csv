@@ -1,0 +1,5 @@
+﻿tier,detectors,events,precision_high,recall_high,no_data_share
+A,99,12178,0.7762,0.3851,0.17
+B,15,910,0.794,0.3176,0.3352
+C,29,1505,0.6807,0.2904,0.0192
+X,15,0,0.0,0.0,1.0

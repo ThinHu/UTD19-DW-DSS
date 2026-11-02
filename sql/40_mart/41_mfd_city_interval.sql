@@ -1,9 +1,11 @@
+-- MFD (macroscopic fundamental diagram) theo thành phố × ngày × khoảng 3 phút: flow/occupancy trung bình
+-- có trọng số theo chiều dài làn × số làn; loại số đo có cờ trong {EXCLUDE_MASK} và ngày phủ dưới {COVERAGE_MIN}.
 CREATE OR REPLACE TABLE mart.mfd_city_interval AS
 SELECT c.citycode, f.date_key, f.time_key,
        sum(f.flow_veh_h_lane * w.weight) / NULLIF(sum(CASE WHEN f.flow_veh_h_lane IS NOT NULL THEN w.weight END), 0) AS flow_w,
        sum(f.occupancy * w.weight) / NULLIF(sum(CASE WHEN f.occupancy IS NOT NULL THEN w.weight END), 0) AS occ_w,
-       count(*) AS n_detectors, 
-       sum(CAST(f.has_flow AS INTEGER)) AS n_flow, 
+       count(*) AS n_detectors,
+       sum(CAST(f.has_flow AS INTEGER)) AS n_flow,
        sum(CAST(f.has_occupancy AS INTEGER)) AS n_occ
 FROM dw.fact_traffic_measurement f
 JOIN (

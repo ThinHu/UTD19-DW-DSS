@@ -53,6 +53,15 @@ class Settings:
         
         self.DB_PATH = self.WORK_DIR / self._cfg["paths"]["db_filename"]
 
+        cal = self._cfg.get("calendar", {}) or {}
+        self.HOLIDAYS = list(cal.get("holidays", []))
+        self.SPECIAL_DAYS = list(cal.get("special_days", []))
+        self.DIM_DATE_END = cal.get("dim_date_end") or self.END_DATE
+
+        ext = self._cfg.get("external", {}) or {}
+        self.WEATHER_CSV = self.RAW_DATA_DIR / ext.get("weather_csv", "external/weather_luzern_daily.csv")
+        self.EXPORT_SRC_DIR = self.RAW_DATA_DIR / ext.get("export_dir", "luzern_jan_jun")
+
     @property
     def dq_rules(self):
         return self._rules

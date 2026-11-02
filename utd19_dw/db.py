@@ -9,7 +9,6 @@ if hasattr(sys.stdout, "reconfigure"):
 import contextlib
 import os
 import time
-from pathlib import Path
 import duckdb
 from utd19_dw.config import settings
 

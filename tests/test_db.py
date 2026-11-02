@@ -1,4 +1,3 @@
-import duckdb
 from utd19_dw.db import DBManager
 
 def test_db_manager_in_memory(tmp_path):

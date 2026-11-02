@@ -1,16 +1,61 @@
 # Dữ liệu & Database
-data/
+# Chỉ đưa lên git dữ liệu mẫu cần để chạy lại toàn bộ (bản xuất 15 phút Luzern + thời tiết, ~21 MB);
+# kho DuckDB, artifacts DSS và bản xuất đều sinh lại được bằng lệnh trong README.
+data/*
+!data/raw/
+data/raw/*
+!data/raw/luzern_jan_jun/
+!data/raw/external/
 *.duckdb
+*.duckdb.wal
 *.db
 *.parquet
 *.csv
 *.gz
 *.zip
+*.tgz
+*.tar
+
+# Artifacts mô hình DSS (sinh bởi python -m utd19_dss.build)
+*.joblib
+*.npz
+*.npy
 
 # Môi trường & Cache
 .env
-__pycache__/
-.pytest_cache/
 .venv/
+venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ruff_cache/
+.ipynb_checkpoints/
+*.egg-info/
+/build/
+/dist/
+*.log
+
+# IDE & hệ điều hành
 .idea/
 .vscode/
+.DS_Store
+Thumbs.db
+desktop.ini
+~$*
+
+# Claude Code (cài đặt cá nhân)
+.claude/settings.local.json
+
+# Frontend
+frontend/node_modules/
+frontend/.vite/
+npm-debug.log*
+
+# Ngoại lệ cho các mẫu *.csv / *.gz ở trên: dữ liệu mẫu và bảng kết quả đánh giá
+!data/raw/luzern_jan_jun/*.csv
+!data/raw/luzern_jan_jun/*.gz
+!data/raw/external/*.csv
+!reports/tables/*.csv
+
+# Tệp tạm khi mở tài liệu Word/LibreOffice
+.~lock.*

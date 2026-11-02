@@ -1,3 +1,5 @@
+-- Staging: nạp số đo 3 phút từ utd19_u.csv (chuỗi), lọc thành phố và khoảng ngày theo config/settings.yaml.
+-- _row_id giữ thứ tự nạp để khử trùng lặp (giữ dòng nạp sau cùng) và truy vết dòng bị cách ly.
 CREATE OR REPLACE TABLE stg.measurements_raw AS
 SELECT row_number() OVER () AS _row_id,
        lower(trim(city)) AS city,

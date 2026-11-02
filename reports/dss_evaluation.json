@@ -1,0 +1,735 @@
+{
+  "generated_at": "2026-11-02T08:42:43",
+  "built_at": "2026-11-02T08:19:20",
+  "split": {
+    "train": [
+      "2015-01-01",
+      "2015-04-30"
+    ],
+    "valid": [
+      "2015-05-01",
+      "2015-05-31"
+    ],
+    "replay": [
+      "2015-06-01",
+      "2015-06-30"
+    ]
+  },
+  "label": "cần chú ý = sự kiện ùn tắc bất thường ngay tại khung hoặc trong 30 phút sau",
+  "weights": {
+    "C1": 0.25,
+    "C2": 0.05,
+    "C3": 0.05,
+    "C4": 0.15,
+    "C5": 0.5
+  },
+  "thresholds": {
+    "high": 40,
+    "medium": 30,
+    "max_high": 10
+  },
+  "threshold_rule": {
+    "high": "f1",
+    "medium": "f2"
+  },
+  "strategies": [
+    {
+      "strategy": "v5 — đề xuất (C1–C5, trọng số tối ưu, ngưỡng F1/F2)",
+      "weights": {
+        "C1": 0.25,
+        "C2": 0.05,
+        "C3": 0.05,
+        "C4": 0.15,
+        "C5": 0.5
+      },
+      "thresholds": {
+        "high": 40,
+        "medium": 30,
+        "max_high": 10
+      },
+      "p_at_5": 0.5405,
+      "p_at_10": 0.3986,
+      "high_per_window": 2.45,
+      "high_per_window_p95": 10.0,
+      "high_per_window_max": 10,
+      "high_med_per_window": 6.13,
+      "precision_high": 0.7684,
+      "recall_high": 0.3711,
+      "f1_high": 0.5005,
+      "recall_now_high": 0.7451,
+      "recall_future_high": 0.0716,
+      "precision_high_med": 0.4768,
+      "recall_high_med": 0.5769,
+      "f2_high_med": 0.5536,
+      "recall_now_high_med": 0.9926,
+      "recall_future_high_med": 0.2439,
+      "missed_in_low": 0.0186,
+      "note": "cấu hình triển khai"
+    },
+    {
+      "strategy": "v5 không giới hạn năng lực ca trực",
+      "weights": {
+        "C1": 0.25,
+        "C2": 0.05,
+        "C3": 0.05,
+        "C4": 0.15,
+        "C5": 0.5
+      },
+      "thresholds": {
+        "high": 40,
+        "medium": 30
+      },
+      "p_at_5": 0.5405,
+      "p_at_10": 0.3986,
+      "high_per_window": 3.37,
+      "high_per_window_p95": 16.0,
+      "high_per_window_max": 48,
+      "high_med_per_window": 6.13,
+      "precision_high": 0.7049,
+      "recall_high": 0.4686,
+      "f1_high": 0.563,
+      "recall_now_high": 0.888,
+      "recall_future_high": 0.1328,
+      "precision_high_med": 0.4768,
+      "recall_high_med": 0.5769,
+      "f2_high_med": 0.5536,
+      "recall_now_high_med": 0.9926,
+      "recall_future_high_med": 0.2439,
+      "missed_in_low": 0.0186,
+      "note": "tách tác động của giới hạn top-N mỗi khung"
+    },
+    {
+      "strategy": "v4 — trọng số kinh nghiệm, ngưỡng 70/40",
+      "weights": {
+        "C1": 0.45,
+        "C2": 0.2,
+        "C3": 0.25,
+        "C4": 0.1,
+        "C5": 0.0
+      },
+      "thresholds": {
+        "high": 70,
+        "medium": 40
+      },
+      "p_at_5": 0.4375,
+      "p_at_10": 0.3451,
+      "high_per_window": 1.58,
+      "high_per_window_p95": 7.0,
+      "high_per_window_max": 49,
+      "high_med_per_window": 8.29,
+      "precision_high": 0.5826,
+      "recall_high": 0.1815,
+      "f1_high": 0.2767,
+      "recall_now_high": 0.3749,
+      "recall_future_high": 0.0265,
+      "precision_high_med": 0.3278,
+      "recall_high_med": 0.5366,
+      "f2_high_med": 0.4759,
+      "recall_now_high_med": 0.9954,
+      "recall_future_high_med": 0.1691,
+      "missed_in_low": 0.0208,
+      "note": "phiên bản trước"
+    },
+    {
+      "strategy": "v4 + ngưỡng chọn lại theo F1/F2",
+      "weights": {
+        "C1": 0.45,
+        "C2": 0.2,
+        "C3": 0.25,
+        "C4": 0.1,
+        "C5": 0.0
+      },
+      "thresholds": {
+        "high": 50,
+        "medium": 40,
+        "max_high": 10
+      },
+      "p_at_5": 0.4375,
+      "p_at_10": 0.3451,
+      "high_per_window": 4.2,
+      "high_per_window_p95": 10.0,
+      "high_per_window_max": 10,
+      "high_med_per_window": 8.29,
+      "precision_high": 0.4208,
+      "recall_high": 0.3489,
+      "f1_high": 0.3815,
+      "recall_now_high": 0.7166,
+      "recall_future_high": 0.0543,
+      "precision_high_med": 0.3278,
+      "recall_high_med": 0.5366,
+      "f2_high_med": 0.4759,
+      "recall_now_high_med": 0.9954,
+      "recall_future_high_med": 0.1691,
+      "missed_in_low": 0.0208,
+      "note": "tách tác động của ngưỡng"
+    },
+    {
+      "strategy": "v5 bỏ C5 (chỉ luật C1–C4)",
+      "weights": {
+        "C1": 0.25,
+        "C2": 0.05,
+        "C3": 0.05,
+        "C4": 0.15,
+        "C5": 0.0
+      },
+      "thresholds": {
+        "high": 50,
+        "medium": 40,
+        "max_high": 10
+      },
+      "p_at_5": 0.4542,
+      "p_at_10": 0.3501,
+      "high_per_window": 3.66,
+      "high_per_window_p95": 10.0,
+      "high_per_window_max": 10,
+      "high_med_per_window": 7.62,
+      "precision_high": 0.4761,
+      "recall_high": 0.3435,
+      "f1_high": 0.3991,
+      "recall_now_high": 0.7262,
+      "recall_future_high": 0.037,
+      "precision_high_med": 0.35,
+      "recall_high_med": 0.5261,
+      "f2_high_med": 0.478,
+      "recall_now_high_med": 0.9971,
+      "recall_future_high_med": 0.149,
+      "missed_in_low": 0.0211,
+      "note": "đóng góp của học máy"
+    },
+    {
+      "strategy": "Chỉ C5 (chỉ mô hình học máy)",
+      "weights": {
+        "C1": 0.0,
+        "C2": 0.0,
+        "C3": 0.0,
+        "C4": 0.0,
+        "C5": 1.0
+      },
+      "thresholds": {
+        "high": 35,
+        "medium": 15,
+        "max_high": 10
+      },
+      "p_at_5": 0.4954,
+      "p_at_10": 0.3875,
+      "high_per_window": 2.53,
+      "high_per_window_p95": 10.0,
+      "high_per_window_max": 10,
+      "high_med_per_window": 10.92,
+      "precision_high": 0.6631,
+      "recall_high": 0.3312,
+      "f1_high": 0.4418,
+      "recall_now_high": 0.6097,
+      "recall_future_high": 0.1081,
+      "precision_high_med": 0.3207,
+      "recall_high_med": 0.6909,
+      "f2_high_med": 0.5613,
+      "recall_now_high_med": 0.9613,
+      "recall_future_high_med": 0.4744,
+      "missed_in_low": 0.0141,
+      "note": "không dùng luật"
+    },
+    {
+      "strategy": "Chỉ C1 (occupancy vượt baseline)",
+      "weights": {
+        "C1": 1.0,
+        "C2": 0.0,
+        "C3": 0.0,
+        "C4": 0.0,
+        "C5": 0.0
+      },
+      "thresholds": {
+        "high": 70,
+        "medium": 60,
+        "max_high": 10
+      },
+      "p_at_5": 0.4768,
+      "p_at_10": 0.3562,
+      "high_per_window": 3.79,
+      "high_per_window_p95": 10.0,
+      "high_per_window_max": 10,
+      "high_med_per_window": 6.28,
+      "precision_high": 0.4923,
+      "recall_high": 0.3687,
+      "f1_high": 0.4216,
+      "recall_now_high": 0.7897,
+      "recall_future_high": 0.0315,
+      "precision_high_med": 0.401,
+      "recall_high_med": 0.4973,
+      "f2_high_med": 0.4745,
+      "recall_now_high_med": 1.0,
+      "recall_future_high_med": 0.0947,
+      "missed_in_low": 0.0221,
+      "note": "mốc đơn giản nhất"
+    }
+  ],
+  "capacity_sweep": [
+    {
+      "max_high": 0,
+      "high_per_window": 3.37,
+      "high_per_window_p95": 16.0,
+      "precision_high": 0.7049,
+      "recall_high": 0.4686,
+      "f1_high": 0.563,
+      "recall_now_high": 0.888,
+      "recall_future_high": 0.1328
+    },
+    {
+      "max_high": 5,
+      "high_per_window": 1.71,
+      "high_per_window_p95": 5.0,
+      "precision_high": 0.801,
+      "recall_high": 0.2698,
+      "f1_high": 0.4036,
+      "recall_now_high": 0.5581,
+      "recall_future_high": 0.0389
+    },
+    {
+      "max_high": 8,
+      "high_per_window": 2.21,
+      "high_per_window_p95": 8.0,
+      "precision_high": 0.7804,
+      "recall_high": 0.3406,
+      "f1_high": 0.4743,
+      "recall_now_high": 0.6903,
+      "recall_future_high": 0.0606
+    },
+    {
+      "max_high": 10,
+      "high_per_window": 2.45,
+      "high_per_window_p95": 10.0,
+      "precision_high": 0.7684,
+      "recall_high": 0.3711,
+      "f1_high": 0.5005,
+      "recall_now_high": 0.7451,
+      "recall_future_high": 0.0716
+    },
+    {
+      "max_high": 12,
+      "high_per_window": 2.62,
+      "high_per_window_p95": 12.0,
+      "precision_high": 0.7602,
+      "recall_high": 0.3933,
+      "f1_high": 0.5184,
+      "recall_now_high": 0.7829,
+      "recall_future_high": 0.0813
+    },
+    {
+      "max_high": 15,
+      "high_per_window": 2.82,
+      "high_per_window_p95": 15.0,
+      "precision_high": 0.7471,
+      "recall_high": 0.4161,
+      "f1_high": 0.5345,
+      "recall_now_high": 0.8196,
+      "recall_future_high": 0.0929
+    },
+    {
+      "max_high": 20,
+      "high_per_window": 3.04,
+      "high_per_window_p95": 16.0,
+      "precision_high": 0.7359,
+      "recall_high": 0.4408,
+      "f1_high": 0.5514,
+      "recall_now_high": 0.8582,
+      "recall_future_high": 0.1065
+    }
+  ],
+  "ablation": [
+    {
+      "criterion_removed": "C1",
+      "label": "Occupancy cao hơn thường lệ",
+      "p_at_10": 0.3809,
+      "f1_high": 0.4484,
+      "precision_high": 0.644,
+      "recall_high": 0.3439,
+      "delta_p_at_10": -0.0177,
+      "delta_f1_high": -0.0521
+    },
+    {
+      "criterion_removed": "C2",
+      "label": "Lưu lượng bất thường",
+      "p_at_10": 0.3991,
+      "f1_high": 0.5043,
+      "precision_high": 0.7777,
+      "recall_high": 0.3731,
+      "delta_p_at_10": 0.0005,
+      "delta_f1_high": 0.0038
+    },
+    {
+      "criterion_removed": "C3",
+      "label": "Bất thường kéo dài",
+      "p_at_10": 0.3987,
+      "f1_high": 0.5022,
+      "precision_high": 0.7732,
+      "recall_high": 0.3718,
+      "delta_p_at_10": 0.0001,
+      "delta_f1_high": 0.0017
+    },
+    {
+      "criterion_removed": "C4",
+      "label": "Ảnh hưởng từ detector lân cận",
+      "p_at_10": 0.3996,
+      "f1_high": 0.5157,
+      "precision_high": 0.7203,
+      "recall_high": 0.4016,
+      "delta_p_at_10": 0.001,
+      "delta_f1_high": 0.0152
+    },
+    {
+      "criterion_removed": "C5",
+      "label": "Nguy cơ ùn tắc 30 phút tới (ML)",
+      "p_at_10": 0.3501,
+      "f1_high": 0.3991,
+      "precision_high": 0.4761,
+      "recall_high": 0.3435,
+      "delta_p_at_10": -0.0485,
+      "delta_f1_high": -0.1014
+    }
+  ],
+  "models": {
+    "valid": {
+      "dt": {
+        "n": 371086,
+        "pos_rate": 0.0362,
+        "pr_auc": 0.3224,
+        "roc_auc": 0.8847,
+        "brier": 0.0286,
+        "threshold": 0.1875,
+        "precision": 0.3891,
+        "recall": 0.373,
+        "f1": 0.3809,
+        "confusion": {
+          "tp": 5005,
+          "fp": 7859,
+          "fn": 8414,
+          "tn": 349808
+        },
+        "onset_recall": 0.159,
+        "onset_share": 0.7268,
+        "params": {
+          "max_depth": 12
+        },
+        "fit_seconds": 18.2
+      },
+      "nb": {
+        "n": 371086,
+        "pos_rate": 0.0362,
+        "pr_auc": 0.2101,
+        "roc_auc": 0.8506,
+        "brier": 0.0767,
+        "threshold": 1.0,
+        "precision": 0.3166,
+        "recall": 0.3696,
+        "f1": 0.3411,
+        "confusion": {
+          "tp": 4960,
+          "fp": 10704,
+          "fn": 8459,
+          "tn": 346963
+        },
+        "onset_recall": 0.1329,
+        "onset_share": 0.7268,
+        "params": {},
+        "fit_seconds": 0.9
+      },
+      "mlp": {
+        "n": 371086,
+        "pos_rate": 0.0362,
+        "pr_auc": 0.3533,
+        "roc_auc": 0.8966,
+        "brier": 0.0281,
+        "threshold": 0.1854,
+        "precision": 0.3902,
+        "recall": 0.3865,
+        "f1": 0.3883,
+        "confusion": {
+          "tp": 5186,
+          "fp": 8104,
+          "fn": 8233,
+          "tn": 349563
+        },
+        "onset_recall": 0.1754,
+        "onset_share": 0.7268,
+        "params": {
+          "hidden": [
+            32,
+            16
+          ],
+          "activation": "tanh",
+          "epochs": 14
+        },
+        "fit_seconds": 4.4
+      },
+      "gb": {
+        "n": 371086,
+        "pos_rate": 0.0362,
+        "pr_auc": 0.378,
+        "roc_auc": 0.913,
+        "brier": 0.0275,
+        "threshold": 0.1834,
+        "precision": 0.3964,
+        "recall": 0.4056,
+        "f1": 0.4009,
+        "confusion": {
+          "tp": 5443,
+          "fp": 8289,
+          "fn": 7976,
+          "tn": 349378
+        },
+        "onset_recall": 0.2089,
+        "onset_share": 0.7268,
+        "params": {
+          "trees": 258,
+          "max_leaf_nodes": 63
+        },
+        "fit_seconds": 22.4
+      },
+      "persistence": {
+        "n": 371086,
+        "pos_rate": 0.0362,
+        "pr_auc": 0.1465,
+        "roc_auc": 0.6301,
+        "brier": 0.0389,
+        "threshold": 1.0,
+        "precision": 0.44,
+        "recall": 0.2732,
+        "f1": 0.3371,
+        "confusion": {
+          "tp": 3666,
+          "fp": 4666,
+          "fn": 9753,
+          "tn": 353001
+        },
+        "onset_recall": 0.0,
+        "onset_share": 0.7268,
+        "params": {},
+        "fit_seconds": 0.0
+      },
+      "rule_v4": {
+        "n": 371086,
+        "pos_rate": 0.0362,
+        "pr_auc": 0.2049,
+        "roc_auc": 0.7718,
+        "brier": 0.0513,
+        "threshold": 0.5378,
+        "precision": 0.2794,
+        "recall": 0.2891,
+        "f1": 0.2842,
+        "confusion": {
+          "tp": 3879,
+          "fp": 10002,
+          "fn": 9540,
+          "tn": 347665
+        },
+        "onset_recall": 0.0562,
+        "onset_share": 0.7268,
+        "params": {},
+        "fit_seconds": 0.0
+      }
+    },
+    "test": {
+      "gb": {
+        "n": 341211,
+        "pos_rate": 0.0315,
+        "pr_auc": 0.3419,
+        "roc_auc": 0.9068,
+        "brier": 0.0247,
+        "threshold": 0.1745,
+        "precision": 0.3737,
+        "recall": 0.3617,
+        "f1": 0.3676,
+        "confusion": {
+          "tp": 3882,
+          "fp": 6506,
+          "fn": 6850,
+          "tn": 323973
+        },
+        "onset_recall": 0.1805,
+        "onset_share": 0.7507
+      },
+      "persistence": {
+        "n": 341211,
+        "pos_rate": 0.0315,
+        "pr_auc": 0.1264,
+        "roc_auc": 0.6189,
+        "brier": 0.0348,
+        "threshold": 1.0,
+        "precision": 0.4124,
+        "recall": 0.2493,
+        "f1": 0.3107,
+        "confusion": {
+          "tp": 2675,
+          "fp": 3812,
+          "fn": 8057,
+          "tn": 326667
+        },
+        "onset_recall": 0.0,
+        "onset_share": 0.7507
+      },
+      "rule_v4": {
+        "n": 341211,
+        "pos_rate": 0.0315,
+        "pr_auc": 0.1697,
+        "roc_auc": 0.7659,
+        "brier": 0.0501,
+        "threshold": 0.5585,
+        "precision": 0.2555,
+        "recall": 0.2655,
+        "f1": 0.2604,
+        "confusion": {
+          "tp": 2849,
+          "fp": 8300,
+          "fn": 7883,
+          "tn": 322179
+        },
+        "onset_recall": 0.064,
+        "onset_share": 0.7507
+      }
+    },
+    "best": "gb"
+  },
+  "calibration_c5": [
+    {
+      "bin": "0.00–0.02",
+      "n": 244242,
+      "p_mean": 0.0037404296454042196,
+      "observed": 0.004200751713464515
+    },
+    {
+      "bin": "0.02–0.05",
+      "n": 48677,
+      "p_mean": 0.03234156221151352,
+      "observed": 0.04135423300532079
+    },
+    {
+      "bin": "0.05–0.10",
+      "n": 26282,
+      "p_mean": 0.06998321413993835,
+      "observed": 0.08119625599269462
+    },
+    {
+      "bin": "0.10–0.20",
+      "n": 13437,
+      "p_mean": 0.13760092854499817,
+      "observed": 0.15181960258986382
+    },
+    {
+      "bin": "0.20–0.30",
+      "n": 3803,
+      "p_mean": 0.24233849346637726,
+      "observed": 0.2661057060215619
+    },
+    {
+      "bin": "0.30–0.40",
+      "n": 1729,
+      "p_mean": 0.3448605537414551,
+      "observed": 0.37709658762290343
+    },
+    {
+      "bin": "0.40–0.50",
+      "n": 1019,
+      "p_mean": 0.4472164809703827,
+      "observed": 0.4955839057899902
+    },
+    {
+      "bin": "0.50–0.60",
+      "n": 709,
+      "p_mean": 0.5494991540908813,
+      "observed": 0.5275035260930888
+    },
+    {
+      "bin": "0.60–0.80",
+      "n": 996,
+      "p_mean": 0.6941395998001099,
+      "observed": 0.7108433734939759
+    },
+    {
+      "bin": "0.80–1.00",
+      "n": 317,
+      "p_mean": 0.8539378643035889,
+      "observed": 0.8454258675078864
+    }
+  ],
+  "per_tier": [
+    {
+      "tier": "A",
+      "detectors": 99,
+      "events": 12178,
+      "precision_high": 0.7762,
+      "recall_high": 0.3851,
+      "no_data_share": 0.17
+    },
+    {
+      "tier": "B",
+      "detectors": 15,
+      "events": 910,
+      "precision_high": 0.794,
+      "recall_high": 0.3176,
+      "no_data_share": 0.3352
+    },
+    {
+      "tier": "C",
+      "detectors": 29,
+      "events": 1505,
+      "precision_high": 0.6807,
+      "recall_high": 0.2904,
+      "no_data_share": 0.0192
+    },
+    {
+      "tier": "X",
+      "detectors": 15,
+      "events": 0,
+      "precision_high": 0.0,
+      "recall_high": 0.0,
+      "no_data_share": 1.0
+    }
+  ],
+  "per_day_summary": {
+    "f1_high_v5_mean": 0.4873,
+    "f1_high_v5_std": 0.0489,
+    "f1_high_v4_mean": 0.2252,
+    "days_v5_better": 29,
+    "days": 30
+  },
+  "actions": [
+    {
+      "code": "INTERVENE",
+      "label": "Can thiệp",
+      "alerts": 3550,
+      "share": 0.503688989784336,
+      "precision": 0.8098591549295775
+    },
+    {
+      "code": "PERSIST",
+      "label": "Ùn kéo dài",
+      "alerts": 2348,
+      "share": 0.33314415437003403,
+      "precision": 0.8202725724020443
+    },
+    {
+      "code": "VERIFY",
+      "label": "Xác minh thiết bị",
+      "alerts": 642,
+      "share": 0.09108967082860386,
+      "precision": 0.6806853582554517
+    },
+    {
+      "code": "EARLY",
+      "label": "Cảnh báo sớm",
+      "alerts": 508,
+      "share": 0.0720771850170261,
+      "precision": 0.35039370078740156
+    }
+  ],
+  "performance": {
+    "detectors": 158,
+    "ms_per_window_median": 4.2,
+    "ms_per_window_p95": 7.5
+  },
+  "events_june": {
+    "total": 14593,
+    "now": 6490,
+    "future_only": 8103
+  }
+}

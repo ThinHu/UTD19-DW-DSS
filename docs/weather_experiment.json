@@ -1,0 +1,2 @@
+{"pr_auc_base": 0.378, "pr_auc_weather": 0.3682, "event_rate_rain": 0.0236, "event_rate_dry": 0.0217, "rain_days": 78, "dry_days": 73,
+ "note": "Gradient Boosting, cùng mẫu huấn luyện T1–T4, đo PR-AUC trên T5; thêm 4 đặc trưng thời tiết ngày (Open-Meteo). Sinh bởi script thử nghiệm ngoài repo, 02/11/2026."}

@@ -1,3 +1,5 @@
+-- Fact gốc, hạt: 1 detector × 1 ngày × 1 khoảng đo 3 phút. Thước đo đã làm sạch + bitmask dq_flag
+-- (dòng có cờ vẫn được giữ; mart loại theo {EXCLUDE_MASK}). Chỉ có ở chế độ nạp đầy đủ.
 CREATE OR REPLACE TABLE dw.fact_traffic_measurement AS
 SELECT dm.detector_key,
        CAST(strftime(m.day_adj, '%Y%m%d') AS INTEGER) AS date_key,

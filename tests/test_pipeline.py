@@ -6,8 +6,8 @@ def test_render_sql_basic():
     rendered = render_sql(template)
     assert str(settings.FLOW_MAX) in rendered
     assert "luzern" in rendered
-    assert "2019-01-01" in rendered
-    assert "2019-06-30" in rendered
+    assert "2015-01-01" in rendered
+    assert "2015-06-30" in rendered
 
 def test_render_sql_brackets_safety():
     sql_template = """

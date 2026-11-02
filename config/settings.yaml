@@ -16,9 +16,21 @@ duckdb:
   threads: 4
 
 data_warehouse:
-  interval_oor_mode: "reject"   # 'reject' (đẩy vào quarantine) hoặc 'rollover'
+  interval_oor_mode: "reject"   # 'reject' (đẩy vào etl.quarantine) hoặc 'rollover' (interval >= 86400 chuyển sang ngày sau)
   coverage_min: 0.0
   flow_max: 3500
-  exclude_rules_in_mart:
-    - "M-02"                    # Đảm bảo mã này khớp với id trong dq_rules.yaml
-    - "M-09"
+  exclude_rules_in_mart:         # id phải khớp config/dq_rules.yaml
+    - "RULE_FLOW_MAX"
+    - "RULE_OCC_OOR"
+
+# Lịch (dùng để gắn thuộc tính dim_date — cùng danh sách với config/dss.yaml)
+calendar:
+  holidays: ["2015-01-01", "2015-01-02", "2015-04-03", "2015-04-06", "2015-05-14", "2015-05-25", "2015-06-04"]
+  special_days: ["2015-02-12", "2015-02-13", "2015-02-16", "2015-02-17", "2015-05-15"]
+  dim_date_end: "2015-12-31"     # dim_date phủ hết năm 2015 (đủ cho dữ liệu mới nửa cuối năm)
+
+# Nguồn ngoài (tùy chọn): thời tiết ngày ở Luzern, tải bằng python -m utd19_dw.weather
+external:
+  weather_csv: "external/weather_luzern_daily.csv"   # tương đối với UTD_DATA_ROOT
+  # Bản xuất khung 15 phút của DW (dùng khi không có utd19_u.csv gốc): python -m utd19_dw.pipeline --from-export
+  export_dir: "luzern_jan_jun"

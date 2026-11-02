@@ -1,0 +1,84 @@
+# Cấu hình DSS v5 — Luzern (UTD19), 01/01/2015 – 30/06/2015
+# Mọi đường dẫn tương đối tính từ thư mục gốc của dự án.
+
+source:
+  # Ưu tiên đọc mart.dss_detector_window từ DuckDB của DW; nếu không có thì đọc CSV.
+  dw_db: data/work/utd19.duckdb
+  dw_table: mart.dss_detector_window
+  windows_csv: data/raw/luzern_jan_jun/detector_window_15min.csv.gz
+  detectors_csv: data/raw/luzern_jan_jun/detector_location_profile.csv
+
+artifacts_dir: data/dss          # baseline, mô hình, kết quả đánh giá
+results_db: data/work/dss_results.duckdb # kết quả chấm điểm live + nhật ký hành động
+
+# Chia dữ liệu theo thời gian (không xáo trộn) — mục 0.4 của tài liệu thiết kế
+split:
+  train_end: "2015-04-30"        # Huấn luyện: 01/01 – 30/04 (120 ngày)
+  valid_end: "2015-05-31"        # Kiểm định: 01/05 – 31/05 (31 ngày) → chọn mô hình, trọng số, ngưỡng
+  replay_start: "2015-06-01"     # Phát lại "live": 01/06 – 30/06 (30 ngày), mô hình huấn luyện lại trên 01/01 – 31/05
+
+calendar:
+  # Ngày lễ chính thức của bang Luzern trong phạm vi dữ liệu (biết trước, giống lịch thực tế)
+  holidays: ["2015-01-01", "2015-01-02", "2015-04-03", "2015-04-06", "2015-05-14", "2015-05-25", "2015-06-04"]
+  # Ngày đặc biệt do K-means phát hiện (Fasnacht Luzern, ngày cầu sau Thăng thiên) — loại khỏi baseline
+  special_days: ["2015-02-12", "2015-02-13", "2015-02-16", "2015-02-17", "2015-05-15"]
+
+data_quality:
+  tier_a_max_error_pct: 25
+  tier_b_max_error_pct: 50
+  min_valid_intervals: 3         # tối thiểu 3/5 khoảng đo 3 phút hợp lệ trong khung 15 phút
+  occ_max: 1.0
+  flow_max: 3000                 # loại giá trị sentinel 99999
+  stuck_occ: 0.95                # occ >= 0.95 và flow = 0 → cảm biến kẹt
+  min_usable_ratio: 0.5          # detector có < 50% khung hợp lệ → nhóm X (cần bảo trì)
+  offline_after_days: 7          # không có số đo trong 7 ngày cuối lịch sử → nhóm X (ngừng gửi dữ liệu)
+
+kmeans:
+  day_k: 3
+  detector_k_range: [3, 6]       # quét để báo cáo silhouette
+  detector_k: 3                  # chọn 3: silhouette tốt, không có cụm 1 detector (xem meta.kmeans_detectors.scan)
+  random_state: 42
+
+baseline:
+  min_n: 8
+  sigma_floor_occ: 0.005
+  sigma_floor_flow: 10.0
+  sigma_floor_rel: 0.10
+  city_norm: true
+  city_norm_min_ref: 30
+
+criteria:
+  z_cap: 3.0
+  persistence_windows: 4
+  persistence_c1_threshold: 50
+  c4: { dmin_km: 0.05, dmax_km: 0.5, sigma_d_km: 0.3 }   # tương quan phần dư về ~0 từ 0,5 km (Phụ lục A.3)
+
+event:                           # định nghĩa "sự kiện ùn tắc bất thường" dùng làm nhãn học máy
+  z_occ: 2.0
+  occ_margin: 0.05               # occ phải cao hơn baseline tối thiểu 5 điểm %
+  horizon_windows: 2             # dự báo trong 2 khung tới (30 phút)
+  c5_p_cap: 0.5                  # C5 = min(P / 0,5; 1) × 100 — xác suất ≥ 50% coi là rủi ro tối đa
+
+ml:
+  train_sample: 600000
+  mlp_sample: 300000
+  random_state: 42
+
+scoring:
+  # Trọng số mặc định (sẽ được thay bằng kết quả tối ưu trên tập kiểm định khi chạy build)
+  weights: { C1: 0.35, C2: 0.10, C3: 0.15, C4: 0.05, C5: 0.35 }
+  weight_bounds: [0.05, 0.50]
+  weight_step: 0.05
+  top_k: 10
+  thresholds: { high: 70, medium: 40 }   # chỉ dùng khi chưa build; build ghi ngưỡng đã chọn vào meta.json
+  # Chọn ngưỡng trên tháng 5 theo F-score (mục 2.4 tài liệu thiết kế):
+  #   Cao = F1 lớn nhất (cân bằng đúng/đủ), Trung bình = F2 lớn nhất (ưu tiên không bỏ sót khi theo dõi)
+  threshold_rule: { high: f1, medium: f2 }
+  # Năng lực ca trực: mỗi khung 15 phút chỉ giữ tối đa N detector mức Cao (điểm cao nhất); phần vượt → hàng chờ
+  # (mức Trung bình, mã QUEUE). N = top_k vì trọng số được tối ưu cho việc đội trực xem 10 detector đầu bảng.
+  # Đặt 0 để bỏ giới hạn.
+  max_high_per_window: 10
+
+replay:
+  tick_seconds: 3                # 1 khung 15 phút được phát lại mỗi 3 giây khi bấm Play
+  start_paused: true

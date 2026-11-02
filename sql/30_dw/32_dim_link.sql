@@ -1,7 +1,8 @@
+-- dim_link: chiều đoạn đường (hình học WKT, độ dài haversine). Khóa 0 = unknown cho detector không khớp link.
 CREATE OR REPLACE TABLE dw.dim_link AS
-SELECT CAST(row_number() OVER (ORDER BY l.linkid) AS INTEGER) AS link_key, 
-       c.city_key, 
-       l.linkid, 
+SELECT CAST(row_number() OVER (ORDER BY l.linkid) AS INTEGER) AS link_key,
+       c.city_key,
+       l.linkid,
        CAST(l.n_waypoints AS INTEGER) AS n_waypoints,
        l.geometry_wkt, l.geometry_length_km, l.start_long, l.start_lat, l.end_long, l.end_lat,
        l.has_geometry_issue
