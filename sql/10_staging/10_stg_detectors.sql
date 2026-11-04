@@ -1,6 +1,6 @@
 -- Staging: nạp nguyên dạng (chuỗi) các tệp thuộc tính detector UTD19 (detectors*.csv).
 CREATE OR REPLACE TABLE stg.detectors_raw AS
-SELECT * FROM read_csv('{DATA_RAW_DIR}/*detector*.csv', all_varchar=true, header=true, ignore_errors=true);
+SELECT * FROM read_csv('{DATA_RAW_DIR}/*detector*.csv', all_varchar=true, header=true, delim=',', quote='"', escape='"' , union_by_name=true);
 
 -- Bổ sung các cột còn thiếu nếu tệp nguồn không có (để bước clean không lỗi)
 ALTER TABLE stg.detectors_raw ADD COLUMN IF NOT EXISTS "citycode" VARCHAR DEFAULT 'luzern';

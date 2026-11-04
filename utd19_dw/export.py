@@ -24,7 +24,8 @@ STAR = ["dw.dim_city", "dw.dim_road_class", "dw.dim_link", "dw.dim_detector", "d
         "dw.dim_time_of_day", "dw.dim_time_slot", "dw.dim_weather", "dw.fact_traffic_15min"]
 MARTS = ["mart.dss_detector_window", "mart.detector_day_15min", "mart.detector_day_coverage",
          "mart.mfd_city_interval", "mart.city_kpi", "mart.congestion_kpi",
-         "etl.metadata_catalog", "etl.reconciliation", "etl.run_log", "etl.load_info"]
+         "etl.metadata_catalog", "etl.reconciliation", "etl.validation_results", "etl.runs",
+         "etl.check_history", "etl.run_log", "etl.load_info"]
 
 
 class DataExporter:

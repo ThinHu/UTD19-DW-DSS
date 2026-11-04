@@ -135,3 +135,16 @@ Dữ liệu mới thật (ví dụ nửa cuối 2015): `POST /api/ingest` với 
 
 UTD19 (IVT, ETH Zürich) — CC BY-NC-SA 4.0. Thời tiết (tùy chọn): Open-Meteo Historical Weather API (ERA5), CC BY 4.0. Trích dẫn: Loder, A., Ambühl, L., Menendez, M., Axhausen, K. W. (2019).
 Understanding traffic capacity of urban networks. *Scientific Reports* 9, 16283.
+
+## Vận hành ETL và kiểm chứng DW
+
+Xem [hướng dẫn ETL/DQ/logging](docs/DW_ETL_operations.md) cho transaction, lịch sử chạy, views/indexes và lệnh kiểm chứng read-only `python -m utd19_dw.validate`.
+
+Đánh giá correctness, Data Quality và query performance:
+
+```powershell
+.\.venv\Scripts\python.exe -X utf8 -m utd19_dw.assess --repeats 15
+```
+
+Kết quả: [đánh giá DW](reports/dw_assessment.md), [phạm vi kiểm thử](reports/dw_testing.md),
+[số liệu/SQL/query plans](reports/dw_assessment.json).

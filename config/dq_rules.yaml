@@ -33,3 +33,20 @@ rules:
     bit_value: 1024
     name: "Trùng khóa đo"
     description: "Nhiều dòng cùng (city, detid, day, interval); giữ dòng nạp sau cùng, các dòng còn lại vào etl.quarantine"
+
+  - id: "RULE_NONFINITE"
+    bit_value: 64
+    name: "Số đo không hữu hạn"
+    description: "Flow hoặc occupancy là NaN/Infinity: đặt NULL, giữ cờ"
+  - id: "RULE_INTERVAL_ALIGNMENT"
+    bit_value: 128
+    name: "Interval lệch bước đo"
+    description: "Interval không chia hết cho 180 giây: cách ly"
+  - id: "RULE_PARSE"
+    bit_value: 256
+    name: "Không đọc được khóa"
+    description: "Thiếu detector hoặc không đọc được ngày/interval/count: cách ly"
+  - id: "RULE_AGGREGATE_INVALID"
+    bit_value: 512
+    name: "Số liệu tổng hợp không hợp lệ"
+    description: "Count ngoài miền, không nhất quán, mean sai miền hoặc không khớp count: cách ly"

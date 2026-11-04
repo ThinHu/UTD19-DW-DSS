@@ -1,11 +1,11 @@
 -- Staging: nạp nguyên dạng (chuỗi) các tệp hình học link UTD19 (links*.csv).
 CREATE OR REPLACE TABLE stg.links_raw AS
-SELECT * FROM read_csv('{DATA_RAW_DIR}/*link*.csv', all_varchar=true, header=true, ignore_errors=true);
+SELECT * FROM read_csv('{DATA_RAW_DIR}/*link*.csv', all_varchar=true, header=true, delim=',', quote='"', escape='"' , union_by_name=true);
 
 ALTER TABLE stg.links_raw ADD COLUMN IF NOT EXISTS "citycode" VARCHAR DEFAULT 'luzern';
 ALTER TABLE stg.links_raw ADD COLUMN IF NOT EXISTS "linkid" VARCHAR DEFAULT NULL;
 ALTER TABLE stg.links_raw ADD COLUMN IF NOT EXISTS "order" VARCHAR DEFAULT '1';
 ALTER TABLE stg.links_raw ADD COLUMN IF NOT EXISTS "piece" VARCHAR DEFAULT '1';
 ALTER TABLE stg.links_raw ADD COLUMN IF NOT EXISTS "group" VARCHAR DEFAULT NULL;
-ALTER TABLE stg.links_raw ADD COLUMN IF NOT EXISTS "long" VARCHAR DEFAULT '8.3093';
-ALTER TABLE stg.links_raw ADD COLUMN IF NOT EXISTS "lat" VARCHAR DEFAULT '47.0502';
+ALTER TABLE stg.links_raw ADD COLUMN IF NOT EXISTS "long" VARCHAR DEFAULT NULL;
+ALTER TABLE stg.links_raw ADD COLUMN IF NOT EXISTS "lat" VARCHAR DEFAULT NULL;

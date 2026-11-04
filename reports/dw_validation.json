@@ -1,0 +1,216 @@
+{
+  "database": "D:\\Học kì 261\\DW&DSS\\UTD19-DW-DSS\\data\\work\\utd19.duckdb",
+  "mode": "full_3min",
+  "source": "D:/Học kì 261/DW&DSS/UTD19-DW-DSS/data/raw/utd19_u.csv",
+  "loaded_at": "2026-11-04 10:56:14.959290",
+  "checked_at": "2026-11-04T04:11:02.818564+00:00",
+  "status": "PASS",
+  "row_counts": {
+    "dw.dim_detector": 159,
+    "dw.fact_traffic_15min": 2633638,
+    "mart.dss_detector_window": 2633638,
+    "etl.quarantine": 27454,
+    "dw.fact_traffic_measurement": 13138969
+  },
+  "date_key_range": [
+    20150101,
+    20150630
+  ],
+  "quarantine_by_rule": {
+    "RULE_INTERVAL_OOR": 27454
+  },
+  "checks": [
+    {
+      "check_id": "DQ-CALENDAR",
+      "description": "Khóa ngày khớp ngày lịch",
+      "expected": 0,
+      "actual": 0,
+      "status": "PASS",
+      "checked_at": "2026-11-04 11:10:57.952931"
+    },
+    {
+      "check_id": "DQ-COUNTS",
+      "description": "Count tổng hợp hợp lệ",
+      "expected": 0,
+      "actual": 0,
+      "status": "PASS",
+      "checked_at": "2026-11-04 11:10:57.952931"
+    },
+    {
+      "check_id": "DQ-DIM-FK",
+      "description": "Dimension detector tham chiếu đủ city/link/road class",
+      "expected": 0,
+      "actual": 0,
+      "status": "PASS",
+      "checked_at": "2026-11-04 11:10:57.952931"
+    },
+    {
+      "check_id": "DQ-DIM-KEYS",
+      "description": "Mọi khóa chiều không NULL và duy nhất",
+      "expected": 0,
+      "actual": 0,
+      "status": "PASS",
+      "checked_at": "2026-11-04 11:10:57.952931"
+    },
+    {
+      "check_id": "DQ-EMPTY",
+      "description": "Fact không rỗng",
+      "expected": 0,
+      "actual": 0,
+      "status": "PASS",
+      "checked_at": "2026-11-04 11:10:57.952931"
+    },
+    {
+      "check_id": "DQ-F3-DOMAIN",
+      "description": "Miền giá trị fact 3 phút, error flag và bước thời gian",
+      "expected": 0,
+      "actual": 0,
+      "status": "PASS",
+      "checked_at": "2026-11-04 11:11:02.499253"
+    },
+    {
+      "check_id": "DQ-FK15",
+      "description": "Fact 15 phút có đủ khóa chiều",
+      "expected": 0,
+      "actual": 0,
+      "status": "PASS",
+      "checked_at": "2026-11-04 11:10:57.952931"
+    },
+    {
+      "check_id": "DQ-FLOW",
+      "description": "Tổng và count nhất quán: sum_flow_all",
+      "expected": 0,
+      "actual": 0,
+      "status": "PASS",
+      "checked_at": "2026-11-04 11:10:57.952931"
+    },
+    {
+      "check_id": "DQ-FLOW-CLEAN",
+      "description": "Tổng và count nhất quán: sum_flow_clean",
+      "expected": 0,
+      "actual": 0,
+      "status": "PASS",
+      "checked_at": "2026-11-04 11:10:57.952931"
+    },
+    {
+      "check_id": "DQ-MART-GRAIN",
+      "description": "Mart DSS không trùng grain",
+      "expected": 0,
+      "actual": 0,
+      "status": "PASS",
+      "checked_at": "2026-11-04 11:10:57.952931"
+    },
+    {
+      "check_id": "DQ-MART-VALUES",
+      "description": "Mart DSS khớp toàn bộ khóa/count/mean của fact",
+      "expected": 0,
+      "actual": 0,
+      "status": "PASS",
+      "checked_at": "2026-11-04 11:10:57.952931"
+    },
+    {
+      "check_id": "DQ-NATURAL-KEY",
+      "description": "Mỗi detector có đúng một phiên bản hiện hành",
+      "expected": 0,
+      "actual": 0,
+      "status": "PASS",
+      "checked_at": "2026-11-04 11:10:57.952931"
+    },
+    {
+      "check_id": "DQ-OCC",
+      "description": "Tổng và count nhất quán: sum_occ_all",
+      "expected": 0,
+      "actual": 0,
+      "status": "PASS",
+      "checked_at": "2026-11-04 11:10:57.952931"
+    },
+    {
+      "check_id": "DQ-OCC-CLEAN",
+      "description": "Tổng và count nhất quán: sum_occ_clean",
+      "expected": 0,
+      "actual": 0,
+      "status": "PASS",
+      "checked_at": "2026-11-04 11:10:57.952931"
+    },
+    {
+      "check_id": "DQ-ROLLUP",
+      "description": "Fact 15 phút khớp mọi sum/count theo từng nhóm từ fact 3 phút",
+      "expected": 0,
+      "actual": 0,
+      "status": "PASS",
+      "checked_at": "2026-11-04 11:10:58.913605"
+    },
+    {
+      "check_id": "DQ-SOURCE",
+      "description": "Mọi giá trị clean khớp fact theo khóa nghiệp vụ",
+      "expected": 0,
+      "actual": 0,
+      "status": "PASS",
+      "checked_at": "2026-11-04 11:10:59.944047"
+    },
+    {
+      "check_id": "RC-A",
+      "description": "Toàn vẹn dòng: fact 3 phút = staging − cách ly",
+      "expected": 13138969,
+      "actual": 13138969,
+      "status": "PASS",
+      "checked_at": "2026-11-04 11:10:57.269185"
+    },
+    {
+      "check_id": "RC-B",
+      "description": "Toàn vẹn khóa detector (không orphan)",
+      "expected": 0,
+      "actual": 0,
+      "status": "PASS",
+      "checked_at": "2026-11-04 11:10:57.269185"
+    },
+    {
+      "check_id": "RC-C",
+      "description": "Toàn vẹn khóa ngày (không orphan)",
+      "expected": 0,
+      "actual": 0,
+      "status": "PASS",
+      "checked_at": "2026-11-04 11:10:57.269185"
+    },
+    {
+      "check_id": "RC-D",
+      "description": "Fact tổng hợp 15 phút khớp fact gốc 3 phút (tổng số khoảng đo)",
+      "expected": 13138969,
+      "actual": 13138969,
+      "status": "PASS",
+      "checked_at": "2026-11-04 11:10:57.269185"
+    },
+    {
+      "check_id": "RC-E",
+      "description": "Mart DSS khớp fact 15 phút (số dòng)",
+      "expected": 2633638,
+      "actual": 2633638,
+      "status": "PASS",
+      "checked_at": "2026-11-04 11:10:57.269185"
+    },
+    {
+      "check_id": "RC-F",
+      "description": "Toàn vẹn khóa thời điểm trong ngày (không orphan)",
+      "expected": 0,
+      "actual": 0,
+      "status": "PASS",
+      "checked_at": "2026-11-04 11:10:57.269185"
+    },
+    {
+      "check_id": "RC-G",
+      "description": "Đúng hạt: không trùng (detector, ngày, thời điểm) trong fact 3 phút và fact 15 phút",
+      "expected": 0,
+      "actual": 0,
+      "status": "PASS",
+      "checked_at": "2026-11-04 11:10:57.269185"
+    },
+    {
+      "check_id": "RC-H",
+      "description": "Khóa thay thế của các chiều là duy nhất",
+      "expected": 0,
+      "actual": 0,
+      "status": "PASS",
+      "checked_at": "2026-11-04 11:10:57.269185"
+    }
+  ]
+}

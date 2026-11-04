@@ -35,7 +35,8 @@ SELECT *,
        count(*) OVER w AS dup_n,
        row_number() OVER (PARTITION BY city, detid, day_adj, interval_adj ORDER BY _row_id DESC) AS rn,
        CASE WHEN day_adj IS NULL OR detid IS NULL OR interval_adj IS NULL THEN 'RULE_PARSE'
-            WHEN interval_adj < 0 OR interval_adj >= 86400 THEN 'RULE_INTERVAL_OOR' END AS reject_rule
+            WHEN NOT isfinite(interval_adj) OR interval_adj < 0 OR interval_adj >= 86400 THEN 'RULE_INTERVAL_OOR'
+            WHEN interval_adj % 180 <> 0 THEN 'RULE_INTERVAL_ALIGNMENT' END AS reject_rule
 FROM adj
 WINDOW w AS (PARTITION BY city, detid, day_adj, interval_adj);
 
@@ -69,6 +70,7 @@ SELECT city, detid, day_adj, interval_adj,
          (CASE WHEN flow_raw < 0 THEN 2 ELSE 0 END) +                          -- RULE_NEGATIVE_FLOW
          (CASE WHEN flow_raw > {FLOW_MAX} THEN 4 ELSE 0 END) +                 -- RULE_FLOW_MAX
          (CASE WHEN occ_raw < 0 OR occ_clean > 1 THEN 16 ELSE 0 END) +         -- RULE_OCC_OOR
+         (CASE WHEN (flow_raw IS NOT NULL AND NOT isfinite(flow_raw)) OR (occ_raw IS NOT NULL AND NOT isfinite(occ_raw)) THEN 64 ELSE 0 END) + -- RULE_NONFINITE
          (CASE WHEN dup_n > 1 THEN 1024 ELSE 0 END)                            -- RULE_DUPLICATE (đã giữ 1 dòng)
        AS INTEGER) AS dq_flag,
        _row_id

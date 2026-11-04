@@ -5,6 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "utd19_dw"
 version = "0.1.0"
+requires-python = ">=3.10"
 description = "UTD19 Traffic Data Warehouse and Decision Support System Engine"
 authors = [{ name = "Nhóm BTL CO4031 HK261 — Vinh, Ly, Hữu" }]
 dependencies = [

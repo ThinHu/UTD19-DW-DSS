@@ -6,7 +6,7 @@ CREATE SCHEMA IF NOT EXISTS mart;
 CREATE SCHEMA IF NOT EXISTS etl;
 
 -- Bảng nhật ký chạy pipeline
-CREATE OR REPLACE TABLE etl.run_log (
+CREATE TABLE IF NOT EXISTS etl.run_log (
     step VARCHAR,
     seconds DOUBLE,
     rows_out BIGINT,
@@ -14,8 +14,21 @@ CREATE OR REPLACE TABLE etl.run_log (
     logged_at TIMESTAMP
 );
 
+-- Nâng cấp nhật ký cũ mà không xóa lịch sử.
+ALTER TABLE etl.run_log ADD COLUMN IF NOT EXISTS run_id VARCHAR;
+ALTER TABLE etl.run_log ADD COLUMN IF NOT EXISTS status VARCHAR;
+CREATE TABLE IF NOT EXISTS etl.runs (
+    run_id VARCHAR PRIMARY KEY,
+    mode VARCHAR, source VARCHAR, status VARCHAR,
+    started_at TIMESTAMP, finished_at TIMESTAMP, error VARCHAR
+);
+CREATE TABLE IF NOT EXISTS etl.check_history (
+    run_id VARCHAR, check_id VARCHAR, description VARCHAR,
+    expected DOUBLE, actual DOUBLE, status VARCHAR, checked_at TIMESTAMP
+);
+
 -- Bảng chứa dòng bị cách ly
-CREATE OR REPLACE TABLE etl.quarantine (
+CREATE TABLE IF NOT EXISTS etl.quarantine (
     source VARCHAR,
     rule_id VARCHAR,
     city VARCHAR,

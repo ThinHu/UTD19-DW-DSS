@@ -1,5 +1,6 @@
 import os
 from pathlib import Path
+
 import yaml
 from dotenv import load_dotenv
 
@@ -61,12 +62,45 @@ class Settings:
         ext = self._cfg.get("external", {}) or {}
         self.WEATHER_CSV = self.RAW_DATA_DIR / ext.get("weather_csv", "external/weather_luzern_daily.csv")
         self.EXPORT_SRC_DIR = self.RAW_DATA_DIR / ext.get("export_dir", "luzern_jan_jun")
+        self.validate()
+
+    def validate(self):
+        from datetime import date
+        if not self.CITIES or any(not isinstance(c, str) or not c.strip() for c in self.CITIES):
+            raise ValueError("project.cities phải có ít nhất một thành phố")
+        if self.CITIES != ["luzern"]:
+            raise ValueError("DW hiện chỉ có metadata cho thành phố luzern")
+        if self.INTERVAL_OOR_MODE not in ("reject", "rollover"):
+            raise ValueError("interval_oor_mode phải là reject hoặc rollover")
+        if not 0 <= self.COVERAGE_MIN <= 1 or self.FLOW_MAX <= 0:
+            raise ValueError("coverage_min phải trong [0,1] và flow_max phải dương")
+        if self.SMOKE_ROWS is not None and self.SMOKE_ROWS <= 0:
+            raise ValueError("smoke_rows phải dương")
+        if self.START_DATE:
+            date.fromisoformat(str(self.START_DATE))
+        if self.END_DATE:
+            date.fromisoformat(str(self.END_DATE))
+        if self.START_DATE and self.END_DATE and str(self.START_DATE) > str(self.END_DATE):
+            raise ValueError("start_date không được sau end_date")
+        if self.DIM_DATE_END and self.END_DATE and str(self.DIM_DATE_END) < str(self.END_DATE):
+            raise ValueError("dim_date_end phải bao phủ end_date")
+        ids, bits = set(), set()
+        for rule in self._rules:
+            bit = rule["bit_value"]
+            if rule["id"] in ids or bit in bits or bit <= 0 or bit & (bit - 1):
+                raise ValueError("DQ id/bit phải duy nhất và bit phải là lũy thừa của 2")
+            ids.add(rule["id"])
+            bits.add(bit)
+        self.get_dq_mask(self.EXCLUDE_RULES_IN_MART)
 
     @property
     def dq_rules(self):
         return self._rules
 
     def get_dq_mask(self, rule_ids: list[str]) -> int:
+        unknown = set(rule_ids) - {r["id"] for r in self._rules}
+        if unknown:
+            raise ValueError(f"DQ rule không tồn tại: {sorted(unknown)}")
         mask = 0
         for r in self._rules:
             if r["id"] in rule_ids:

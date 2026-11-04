@@ -27,7 +27,7 @@ def test_step_context_manager(tmp_path):
         seconds DOUBLE,
         rows_out BIGINT,
         note VARCHAR,
-        logged_at TIMESTAMP
+        logged_at TIMESTAMP, run_id VARCHAR, status VARCHAR
     );
     """)
     manager.execute("CREATE TABLE test_tbl (id INT);")

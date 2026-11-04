@@ -32,6 +32,6 @@ def test_sql_dq_bits_match_rules():
     """Bit gán trong 22_clean_measurements.sql phải khớp bit_value của dq_rules.yaml."""
     sql = (settings.BASE_DIR / "sql" / "20_clean" / "22_clean_measurements.sql").read_text(encoding="utf-8")
     for r in settings.dq_rules:
-        if r["id"] in ("RULE_INTERVAL_OOR", "RULE_SPEED_OOR"):   # cách ly / không dùng speed, không gắn cờ
+        if r["id"] in ("RULE_INTERVAL_OOR", "RULE_SPEED_OOR", "RULE_INTERVAL_ALIGNMENT", "RULE_PARSE", "RULE_AGGREGATE_INVALID"):   # cách ly / không dùng speed, không gắn cờ
             continue
         assert f"THEN {r['bit_value']} ELSE 0 END) " in sql and r["id"] in sql, r["id"]

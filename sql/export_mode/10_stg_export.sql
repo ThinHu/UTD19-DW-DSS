@@ -2,7 +2,9 @@
 -- (detector_window_15min.csv.gz) và hồ sơ detector. Các bảng staging giữ nguyên dạng chuỗi như nguồn.
 CREATE OR REPLACE TABLE stg.window_15min_raw AS
 SELECT row_number() OVER () AS _row_id, *
-FROM read_csv('{EXPORT_SRC_DIR}/detector_window_15min.csv.gz', header = true, all_varchar = true);
+FROM read_csv('{EXPORT_SRC_DIR}/detector_window_15min.csv.gz', header = true, all_varchar = true)
+WHERE TRUE AND (TRY_CAST(day AS DATE) IS NULL OR (TRUE {DATE_FILTER_SQL}))
+{LIMIT_SQL};
 
 CREATE OR REPLACE TABLE stg.detectors_raw AS
 SELECT * FROM read_csv('{EXPORT_SRC_DIR}/detector_location_profile.csv', header = true, all_varchar = true);

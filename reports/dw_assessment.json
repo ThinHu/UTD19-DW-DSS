@@ -1,0 +1,1026 @@
+{
+  "checked_at": "2026-11-04T08:18:02.200229+00:00",
+  "database": "D:\\Học kì 261\\DW&DSS\\UTD19-DW-DSS\\data\\work\\utd19.duckdb",
+  "status": "PASS",
+  "environment": {
+    "python": "3.13.5",
+    "duckdb": "2.0.0",
+    "os": "Windows-11-10.0.22631-SP0",
+    "cpu": "Intel64 Family 6 Model 165 Stepping 2, GenuineIntel",
+    "logical_cpus": 12,
+    "database_bytes": 718548992,
+    "memory_limit": "3.7 GiB",
+    "threads": "4"
+  },
+  "methodology": {
+    "repeats": 15,
+    "warmup_queries_per_job": 1,
+    "timed_scope": "execute + fetchall; connection setup, EXPLAIN ANALYZE và validation nằm ngoài thời gian đo",
+    "cache": "warm/repeated, không xóa cache hệ điều hành; first_observed không phải cold start",
+    "concurrency": "một client, các truy vấn chạy tuần tự",
+    "percentiles": "p95 nội suy tuyến tính trên mẫu của một truy vấn; không phải SLA production"
+  },
+  "validation": {
+    "database": "D:\\Học kì 261\\DW&DSS\\UTD19-DW-DSS\\data\\work\\utd19.duckdb",
+    "mode": "full_3min",
+    "source": "D:/Học kì 261/DW&DSS/UTD19-DW-DSS/data/raw/utd19_u.csv",
+    "loaded_at": "2026-11-04 10:56:14.959290",
+    "checked_at": "2026-11-04T08:17:57.345785+00:00",
+    "status": "PASS",
+    "row_counts": {
+      "dw.dim_detector": 159,
+      "dw.fact_traffic_15min": 2633638,
+      "mart.dss_detector_window": 2633638,
+      "etl.quarantine": 27454,
+      "dw.fact_traffic_measurement": 13138969
+    },
+    "date_key_range": [
+      20150101,
+      20150630
+    ],
+    "quarantine_by_rule": {
+      "RULE_INTERVAL_OOR": 27454
+    },
+    "checks": [
+      {
+        "check_id": "DQ-CALENDAR",
+        "description": "Khóa ngày khớp ngày lịch",
+        "expected": 0,
+        "actual": 0,
+        "status": "PASS",
+        "checked_at": "2026-11-04 15:17:49.481731"
+      },
+      {
+        "check_id": "DQ-COUNTS",
+        "description": "Count tổng hợp hợp lệ",
+        "expected": 0,
+        "actual": 0,
+        "status": "PASS",
+        "checked_at": "2026-11-04 15:17:49.481731"
+      },
+      {
+        "check_id": "DQ-DIM-FK",
+        "description": "Dimension detector tham chiếu đủ city/link/road class",
+        "expected": 0,
+        "actual": 0,
+        "status": "PASS",
+        "checked_at": "2026-11-04 15:17:49.481731"
+      },
+      {
+        "check_id": "DQ-DIM-KEYS",
+        "description": "Mọi khóa chiều không NULL và duy nhất",
+        "expected": 0,
+        "actual": 0,
+        "status": "PASS",
+        "checked_at": "2026-11-04 15:17:49.481731"
+      },
+      {
+        "check_id": "DQ-EMPTY",
+        "description": "Fact không rỗng",
+        "expected": 0,
+        "actual": 0,
+        "status": "PASS",
+        "checked_at": "2026-11-04 15:17:49.481731"
+      },
+      {
+        "check_id": "DQ-F3-DOMAIN",
+        "description": "Miền giá trị fact 3 phút, error flag và bước thời gian",
+        "expected": 0,
+        "actual": 0,
+        "status": "PASS",
+        "checked_at": "2026-11-04 15:17:56.904734"
+      },
+      {
+        "check_id": "DQ-FK15",
+        "description": "Fact 15 phút có đủ khóa chiều",
+        "expected": 0,
+        "actual": 0,
+        "status": "PASS",
+        "checked_at": "2026-11-04 15:17:49.481731"
+      },
+      {
+        "check_id": "DQ-FLOW",
+        "description": "Tổng và count nhất quán: sum_flow_all",
+        "expected": 0,
+        "actual": 0,
+        "status": "PASS",
+        "checked_at": "2026-11-04 15:17:49.481731"
+      },
+      {
+        "check_id": "DQ-FLOW-CLEAN",
+        "description": "Tổng và count nhất quán: sum_flow_clean",
+        "expected": 0,
+        "actual": 0,
+        "status": "PASS",
+        "checked_at": "2026-11-04 15:17:49.481731"
+      },
+      {
+        "check_id": "DQ-MART-GRAIN",
+        "description": "Mart DSS không trùng grain",
+        "expected": 0,
+        "actual": 0,
+        "status": "PASS",
+        "checked_at": "2026-11-04 15:17:49.481731"
+      },
+      {
+        "check_id": "DQ-MART-VALUES",
+        "description": "Mart DSS khớp toàn bộ khóa/count/mean của fact",
+        "expected": 0,
+        "actual": 0,
+        "status": "PASS",
+        "checked_at": "2026-11-04 15:17:49.481731"
+      },
+      {
+        "check_id": "DQ-NATURAL-KEY",
+        "description": "Mỗi detector có đúng một phiên bản hiện hành",
+        "expected": 0,
+        "actual": 0,
+        "status": "PASS",
+        "checked_at": "2026-11-04 15:17:49.481731"
+      },
+      {
+        "check_id": "DQ-OCC",
+        "description": "Tổng và count nhất quán: sum_occ_all",
+        "expected": 0,
+        "actual": 0,
+        "status": "PASS",
+        "checked_at": "2026-11-04 15:17:49.481731"
+      },
+      {
+        "check_id": "DQ-OCC-CLEAN",
+        "description": "Tổng và count nhất quán: sum_occ_clean",
+        "expected": 0,
+        "actual": 0,
+        "status": "PASS",
+        "checked_at": "2026-11-04 15:17:49.481731"
+      },
+      {
+        "check_id": "DQ-ROLLUP",
+        "description": "Fact 15 phút khớp mọi sum/count theo từng nhóm từ fact 3 phút",
+        "expected": 0,
+        "actual": 0,
+        "status": "PASS",
+        "checked_at": "2026-11-04 15:17:50.651351"
+      },
+      {
+        "check_id": "DQ-SOURCE",
+        "description": "Mọi giá trị clean khớp fact theo khóa nghiệp vụ",
+        "expected": 0,
+        "actual": 0,
+        "status": "PASS",
+        "checked_at": "2026-11-04 15:17:51.973939"
+      },
+      {
+        "check_id": "RC-A",
+        "description": "Toàn vẹn dòng: fact 3 phút = staging − cách ly",
+        "expected": 13138969,
+        "actual": 13138969,
+        "status": "PASS",
+        "checked_at": "2026-11-04 15:17:48.454143"
+      },
+      {
+        "check_id": "RC-B",
+        "description": "Toàn vẹn khóa detector (không orphan)",
+        "expected": 0,
+        "actual": 0,
+        "status": "PASS",
+        "checked_at": "2026-11-04 15:17:48.454143"
+      },
+      {
+        "check_id": "RC-C",
+        "description": "Toàn vẹn khóa ngày (không orphan)",
+        "expected": 0,
+        "actual": 0,
+        "status": "PASS",
+        "checked_at": "2026-11-04 15:17:48.454143"
+      },
+      {
+        "check_id": "RC-D",
+        "description": "Fact tổng hợp 15 phút khớp fact gốc 3 phút (tổng số khoảng đo)",
+        "expected": 13138969,
+        "actual": 13138969,
+        "status": "PASS",
+        "checked_at": "2026-11-04 15:17:48.454143"
+      },
+      {
+        "check_id": "RC-E",
+        "description": "Mart DSS khớp fact 15 phút (số dòng)",
+        "expected": 2633638,
+        "actual": 2633638,
+        "status": "PASS",
+        "checked_at": "2026-11-04 15:17:48.454143"
+      },
+      {
+        "check_id": "RC-F",
+        "description": "Toàn vẹn khóa thời điểm trong ngày (không orphan)",
+        "expected": 0,
+        "actual": 0,
+        "status": "PASS",
+        "checked_at": "2026-11-04 15:17:48.454143"
+      },
+      {
+        "check_id": "RC-G",
+        "description": "Đúng hạt: không trùng (detector, ngày, thời điểm) trong fact 3 phút và fact 15 phút",
+        "expected": 0,
+        "actual": 0,
+        "status": "PASS",
+        "checked_at": "2026-11-04 15:17:48.454143"
+      },
+      {
+        "check_id": "RC-H",
+        "description": "Khóa thay thế của các chiều là duy nhất",
+        "expected": 0,
+        "actual": 0,
+        "status": "PASS",
+        "checked_at": "2026-11-04 15:17:48.454143"
+      }
+    ]
+  },
+  "quality": {
+    "summary": {
+      "windows": 2633638,
+      "observed_detectors": 158,
+      "intervals": 13138969,
+      "error_intervals": 4696897,
+      "flow_present": 13025169,
+      "occupancy_present": 13077434,
+      "flow_clean": 8442072,
+      "occupancy_clean": 8442072,
+      "period_start": "2015-01-01",
+      "period_end": "2015-06-30",
+      "calendar_days": 181,
+      "expected_windows_observed_roster": 2745408,
+      "expected_intervals_observed_roster": 13727040,
+      "valid_windows": 1744553,
+      "interval_coverage_pct": 95.716,
+      "window_presence_pct": 95.9288,
+      "valid_windows_present_pct": 66.2412,
+      "valid_windows_expected_pct": 63.5444,
+      "sensor_error_pct": 35.7478,
+      "flow_missing_pct": 0.8661,
+      "occupancy_missing_pct": 0.4683
+    },
+    "roster": {
+      "detectors": 158,
+      "inferred": 0,
+      "location_issues": 0,
+      "geometry_issues": 0,
+      "unmatched_links": 0
+    },
+    "staged_rows": 13166423,
+    "rejected_rows": 27454,
+    "quarantine_pct": 0.2085,
+    "monthly": [
+      {
+        "month": "2015-01",
+        "windows": 470205,
+        "intervals": 2346079,
+        "error_intervals": 922403,
+        "error_pct": 39.3168,
+        "weighted_flow": 321.4239,
+        "weighted_occupancy": 0.063832
+      },
+      {
+        "month": "2015-02",
+        "windows": 424701,
+        "intervals": 2119067,
+        "error_intervals": 828473,
+        "error_pct": 39.0961,
+        "weighted_flow": 318.474,
+        "weighted_occupancy": 0.064213
+      },
+      {
+        "month": "2015-03",
+        "windows": 457872,
+        "intervals": 2283786,
+        "error_intervals": 787001,
+        "error_pct": 34.4604,
+        "weighted_flow": 334.9197,
+        "weighted_occupancy": 0.073208
+      },
+      {
+        "month": "2015-04",
+        "windows": 423358,
+        "intervals": 2112352,
+        "error_intervals": 726899,
+        "error_pct": 34.4118,
+        "weighted_flow": 330.0632,
+        "weighted_occupancy": 0.071538
+      },
+      {
+        "month": "2015-05",
+        "windows": 435500,
+        "intervals": 2172120,
+        "error_intervals": 676314,
+        "error_pct": 31.1361,
+        "weighted_flow": 333.5031,
+        "weighted_occupancy": 0.076887
+      },
+      {
+        "month": "2015-06",
+        "windows": 422002,
+        "intervals": 2105565,
+        "error_intervals": 755807,
+        "error_pct": 35.8957,
+        "weighted_flow": 334.3394,
+        "weighted_occupancy": 0.075557
+      }
+    ],
+    "worst_detectors_by_error": [
+      {
+        "detid": "ig11FD100_D37",
+        "windows": 17348,
+        "intervals": 86544,
+        "errors": 86544,
+        "error_pct": 100.0,
+        "interval_coverage_pct": 99.6133
+      },
+      {
+        "detid": "ig11FD100_D39",
+        "windows": 17348,
+        "intervals": 86544,
+        "errors": 86544,
+        "error_pct": 100.0,
+        "interval_coverage_pct": 99.6133
+      },
+      {
+        "detid": "ig11FD100_D4",
+        "windows": 15990,
+        "intervals": 79764,
+        "errors": 79764,
+        "error_pct": 100.0,
+        "interval_coverage_pct": 91.8094
+      },
+      {
+        "detid": "ig11FD100_D44",
+        "windows": 17348,
+        "intervals": 86544,
+        "errors": 86544,
+        "error_pct": 100.0,
+        "interval_coverage_pct": 99.6133
+      },
+      {
+        "detid": "ig11FD103_D6",
+        "windows": 17359,
+        "intervals": 86596,
+        "errors": 86596,
+        "error_pct": 100.0,
+        "interval_coverage_pct": 99.6731
+      },
+      {
+        "detid": "ig11FD104_D42",
+        "windows": 17361,
+        "intervals": 86614,
+        "errors": 86614,
+        "error_pct": 100.0,
+        "interval_coverage_pct": 99.6938
+      },
+      {
+        "detid": "ig11FD104_D43",
+        "windows": 17361,
+        "intervals": 86614,
+        "errors": 86614,
+        "error_pct": 100.0,
+        "interval_coverage_pct": 99.6938
+      },
+      {
+        "detid": "ig11FD104_D44",
+        "windows": 17361,
+        "intervals": 86614,
+        "errors": 86614,
+        "error_pct": 100.0,
+        "interval_coverage_pct": 99.6938
+      },
+      {
+        "detid": "ig11FD105_D7",
+        "windows": 17361,
+        "intervals": 86614,
+        "errors": 86614,
+        "error_pct": 100.0,
+        "interval_coverage_pct": 99.6938
+      },
+      {
+        "detid": "ig11FD109_D16",
+        "windows": 17358,
+        "intervals": 86587,
+        "errors": 86587,
+        "error_pct": 100.0,
+        "interval_coverage_pct": 99.6628
+      },
+      {
+        "detid": "ig11FD110_D33",
+        "windows": 17361,
+        "intervals": 86614,
+        "errors": 86614,
+        "error_pct": 100.0,
+        "interval_coverage_pct": 99.6938
+      },
+      {
+        "detid": "ig11FD111_D26",
+        "windows": 17361,
+        "intervals": 86615,
+        "errors": 86615,
+        "error_pct": 100.0,
+        "interval_coverage_pct": 99.695
+      },
+      {
+        "detid": "ig11FD116_D34",
+        "windows": 17361,
+        "intervals": 86615,
+        "errors": 86615,
+        "error_pct": 100.0,
+        "interval_coverage_pct": 99.695
+      },
+      {
+        "detid": "ig11FD117_D12",
+        "windows": 17361,
+        "intervals": 86614,
+        "errors": 86614,
+        "error_pct": 100.0,
+        "interval_coverage_pct": 99.6938
+      },
+      {
+        "detid": "ig11FD117_D20",
+        "windows": 17361,
+        "intervals": 86614,
+        "errors": 86614,
+        "error_pct": 100.0,
+        "interval_coverage_pct": 99.6938
+      }
+    ],
+    "flag_counts": [
+      {
+        "rule_id": "RULE_NULL_FLOW",
+        "rows": 0,
+        "pct_of_fact": 0.0
+      },
+      {
+        "rule_id": "RULE_NEGATIVE_FLOW",
+        "rows": 0,
+        "pct_of_fact": 0.0
+      },
+      {
+        "rule_id": "RULE_FLOW_MAX",
+        "rows": 113800,
+        "pct_of_fact": 0.8661
+      },
+      {
+        "rule_id": "RULE_OCC_OOR",
+        "rows": 61535,
+        "pct_of_fact": 0.4683
+      },
+      {
+        "rule_id": "RULE_DUPLICATE",
+        "rows": 0,
+        "pct_of_fact": 0.0
+      },
+      {
+        "rule_id": "RULE_NONFINITE",
+        "rows": 0,
+        "pct_of_fact": 0.0
+      }
+    ],
+    "denominator_note": "Coverage dùng detector từng có số đo × toàn bộ ngày cấu hình; không suy ra lịch vận hành cảm biến. Flag có thể chồng lấp. Quarantine dùng staging đã lọc city/ngày, không dùng toàn bộ CSV."
+  },
+  "benchmarks": [
+    {
+      "id": "Q1",
+      "name": "Tra cứu detector/ngày",
+      "params": [
+        20,
+        20150630
+      ],
+      "sql": "SELECT slot_key,n_intervals,n_err,sum_flow_clean/nullif(n_flow_clean,0) AS flow FROM dw.fact_traffic_15min WHERE detector_key=? AND date_key=? ORDER BY slot_key",
+      "rows_returned": 96,
+      "result_sha256": "551df4236295317bf21029292dd2e02154485609ebaa324b92755974da411467",
+      "first_observed_ms": 4.15179999998827,
+      "samples_ms": [
+        2.113399999984722,
+        2.0753000000013344,
+        2.0228000000201973,
+        2.0063000000050124,
+        1.910800000018753,
+        1.8871999999987565,
+        1.9067000000063672,
+        1.9302000000038788,
+        2.088300000025356,
+        2.0081000000118365,
+        1.8876000000318527,
+        1.9105000000081418,
+        1.9583999999781554,
+        1.961499999993066,
+        1.855199999965862
+      ],
+      "median_ms": 1.9583999999781554,
+      "p95_ms": 2.0958300000131658,
+      "min_ms": 1.855199999965862,
+      "max_ms": 2.113399999984722,
+      "explain_analyze": "╭─ Summary ───────────╮\n│ Total Time: 0.0039s │\n╰─────────────────────╯\n╭─ Projection ───────────────────────╮\n│ Projections: CAST(#0 AS SMALLINT), │\n│              CAST(#1 AS SMALLINT), │\n│              CAST(#2 AS SMALLINT), │\n│              #3                    │\n│ 96 rows                        0µs │\n╰──────────────────┒┎────────────────╯\n╭─ Order By ───────┚┖────────────────╮\n│ Order By: slot_key ASC             │\n│ 96 rows                        0µs │\n╰──────────────────┒┎────────────────╯\n╭─ Projection ─────┚┖────────────────╮\n│ Projections: CAST(#0 AS TINYINT),  │\n│              CAST(#1 AS TINYINT),  │\n│              CAST(#2 AS TINYINT),  │\n│              #3                    │\n│ 96 rows                        0µs │\n╰──────────────────┒┎────────────────╯\n╭─ Projection ─────┚┖────────────────╮\n│ Projections: slot_key,             │\n│              n_intervals, n_err,   │\n│              flow                  │\n│ 96 rows                        0µs │\n╰──────────────────┒┎────────────────╯\n╭─ Table Scan ─────┚┖────────────────╮\n│ Table: utd19.dw.fact_traffic_15min │\n│ Type: Sequential Scan              │\n│ Projections: slot_key,             │\n│              n_intervals, n_err,   │\n│              sum_flow_clean,       │\n│              n_flow_clean          │\n│ Filters: detector_key = 20,        │\n│          date_key = 20150630       │\n│ Row Groups Scanned: 1 / 22         │\n│ 96 rows                        0µs │\n╰────────────────────────────────────╯\n"
+    },
+    {
+      "id": "Q2",
+      "name": "Tổng hợp ngày từ fact 15 phút",
+      "params": [],
+      "sql": "SELECT date_key,sum(sum_flow_clean)/nullif(sum(n_flow_clean),0) AS flow,sum(sum_occ_clean)/nullif(sum(n_occ_clean),0) AS occupancy FROM dw.fact_traffic_15min GROUP BY 1 ORDER BY 1",
+      "rows_returned": 181,
+      "result_sha256": "c6b173ef5d9669762352453c765b34ab718b26981a868acb9c65c447aa546ad6",
+      "first_observed_ms": 16.99720000004845,
+      "samples_ms": [
+        15.003200000023753,
+        14.79159999996682,
+        15.604899999971167,
+        15.97110000000157,
+        17.15230000002066,
+        14.956600000004983,
+        17.07809999999199,
+        15.317199999969944,
+        19.053600000006554,
+        15.75070000001233,
+        17.86299999997709,
+        16.47859999997081,
+        15.7069999999635,
+        16.253900000037902,
+        15.540499999985968
+      ],
+      "median_ms": 15.75070000001233,
+      "p95_ms": 18.22017999998593,
+      "min_ms": 14.79159999996682,
+      "max_ms": 19.053600000006554,
+      "explain_analyze": "╭─ Summary ───────────╮\n│ Total Time: 0.0166s │\n╰─────────────────────╯\n╭─ Projection ──────────────────────────────────────────╮\n│ Projections:                                          │\n│ __internal_decompress_integral_integer(#0, 20150101), │\n│ #1, #2                                                │\n│ 181 rows                                          0µs │\n╰───────────────────────────┬───────────────────────────╯\n╭─ Order By ────────────────┴───────────────────────────╮\n│ Order By: date_key ASC                                │\n│ 181 rows                                          0µs │\n╰───────────────────────────┬───────────────────────────╯\n╭─ Projection ──────────────┴───────────────────────────╮\n│ Projections:                                          │\n│ __internal_compress_integral_usmallint(#0, 20150101), │\n│ #1, #2                                                │\n│ 181 rows                                          0µs │\n╰───────────────────────────┬───────────────────────────╯\n╭─ Projection ──────────────┴───────────────────────────╮\n│ Projections: 0, flow, occupancy                       │\n│ 181 rows                                          0µs │\n╰───────────────────────────┬───────────────────────────╯\n╭─ Projection ──────────────┴───────────────────────────╮\n│ Projections:                                          │\n│ __internal_decompress_integral_integer(#0, 20150101), │\n│ #1, #2, #3, #4                                        │\n│ 181 rows                                          0µs │\n╰───────────────────────────┬───────────────────────────╯\n╭─ Perfect Hash Group By ───┴───────────────────────────╮\n│ Groups: #0                                            │\n│ Aggregates: sum(#1), sum(#2), sum(#3), sum(#4)        │\n│ 181 rows                                       20.0ms │\n╰───────────────────────────┒┎──────────────────────────╯\n╭─ Projection ──────────────┚┖──────────────────────────╮\n│ Projections: date_key, sum_flow_clean, n_flow_clean,  │\n│              sum_occ_clean, n_occ_clean               │\n│ 2,633,638 rows                                    0µs │\n╰───────────────────────────┒┎──────────────────────────╯\n╭─ Projection ──────────────┚┖──────────────────────────╮\n│ Projections:                                          │\n│ __internal_compress_integral_usmallint(#0, 20150101), │\n│ #1, #2, #3, #4                                        │\n│ 2,633,638 rows                                    0µs │\n╰───────────────────────────┒┎──────────────────────────╯\n╭─ Table Scan ──────────────┚┖──────────────────────────╮\n│ Table: utd19.dw.fact_traffic_15min                    │\n│ Type: Sequential Scan                                 │\n│ Projections: date_key, sum_flow_clean, n_flow_clean,  │\n│              sum_occ_clean, n_occ_clean               │\n│ Row Groups Scanned: 22 / 22                           │\n│ 2,633,638 rows                                 30.0ms │\n╰───────────────────────────────────────────────────────╯\n"
+    },
+    {
+      "id": "Q3",
+      "name": "Join chiều và rollup tháng/loại đường",
+      "params": [],
+      "sql": "SELECT dd.year_month,rc.road_group,sum(f.sum_flow_clean)/nullif(sum(f.n_flow_clean),0) AS flow FROM dw.fact_traffic_15min f JOIN dw.dim_detector d USING(detector_key) JOIN dw.dim_date dd USING(date_key) JOIN dw.dim_road_class rc USING(road_class_key) GROUP BY 1,2 ORDER BY 1,2",
+      "rows_returned": 24,
+      "result_sha256": "65e3e0375d98f052ffed34144e51bd8ea3fd0fbb6e206de30d7ef513f8a19f84",
+      "first_observed_ms": 38.72949999998809,
+      "samples_ms": [
+        39.67679999999518,
+        37.872399999969275,
+        36.9457000000466,
+        37.76629999998704,
+        39.4779000000085,
+        39.92840000000797,
+        36.85790000002953,
+        41.66570000001002,
+        40.55959999999459,
+        36.60289999999122,
+        42.23020000000588,
+        35.895799999991596,
+        36.474600000019564,
+        41.60799999999654,
+        37.18120000002045
+      ],
+      "median_ms": 37.872399999969275,
+      "p95_ms": 41.83505000000878,
+      "min_ms": 35.895799999991596,
+      "max_ms": 42.23020000000588,
+      "explain_analyze": "╭─ Summary ───────────╮\n│ Total Time: 0.0378s │\n╰─────────────────────╯\n╭─ Projection ─────────────────────────────────╮\n│ Projections:                                 │\n│ __internal_decompress_string(#0), #1, #2     │\n│ 24 rows                                  0µs │\n╰───────────────────────┬──────────────────────╯\n╭─ Order By ────────────┴──────────────────────╮\n│ Order By: year_month ASC, road_group ASC     │\n│ 24 rows                                  0µs │\n╰───────────────────────┬──────────────────────╯\n╭─ Projection ──────────┴──────────────────────╮\n│ Projections:                                 │\n│ __internal_compress_string_ubigint(#0), #1,  │\n│ #2                                           │\n│ 24 rows                                  0µs │\n╰───────────────────────┬──────────────────────╯\n╭─ Projection ──────────┴──────────────────────╮\n│ Projections: 0, 1, flow                      │\n│ 24 rows                                  0µs │\n╰───────────────────────┬──────────────────────╯\n╭─ Projection ──────────┴──────────────────────╮\n│ Projections:                                 │\n│ __internal_decompress_string(#0), #1, #2, #3 │\n│ 24 rows                                  0µs │\n╰───────────────────────┬──────────────────────╯\n╭─ Hash Group By ───────┴──────────────────────╮\n│ Groups: #0, #1                               │\n│ Aggregates: sum(#2), sum(#3)                 │\n│ 24 rows                               80.0ms │\n╰───────────────────────┒┎─────────────────────╯\n╭─ Projection ──────────┚┖─────────────────────╮\n│ Projections: year_month, road_group,         │\n│              sum_flow_clean, n_flow_clean    │\n│ 2,633,638 rows                           0µs │\n╰───────────────────────┒┎─────────────────────╯\n╭─ Projection ──────────┚┖─────────────────────╮\n│ Projections:                                 │\n│ #0, #1, #2,                                  │\n│ __internal_compress_string_ubigint(#3)       │\n│ 2,633,638 rows                           0µs │\n╰───────────────────────┒┎─────────────────────╯\n╭─ Hash Join ───────────┚┖─────────────────────╮\n│ Join Type: INNER                             │\n│ Conditions: date_key = date_key              │\n│ 2,633,638 rows                        10.0ms │\n╰───────────────────────┰┰─────────────────────╯\n                        ┃┠───────────────────────────────────────────────────────────────────────────────────────────────────────╮\n╭─ Hash Join ───────────┚┖─────────────────────╮                                                       ╭─ Table Scan ────────────┴─────────────────────────╮\n│ Join Type: INNER                             │                                                       │ Table: utd19.dw.dim_date                          │\n│ Conditions: detector_key = detector_key      │                                                       │ Type: Sequential Scan                             │\n│ 2,633,638 rows                        10.0ms │                                                       │ Projections: date_key, year_month                 │\n╰───────────────────────┰┰─────────────────────╯                                                       │ Filters:                                          │\n                        ┃┠─────────────────────────────────────────────────╮                           │ (date_key >= 20150101) AND (date_key <= 20150630) │\n╭─ Table Scan ──────────┚┖─────────────────────╮  ╭─ Hash Join ────────────┴────────────────────────╮  │ Row Groups Scanned: 1 / 1                         │\n│ Table: utd19.dw.fact_traffic_15min           │  │ Join Type: INNER                                │  │ 181 rows                                      0µs │\n│ Type: Sequential Scan                        │  │ Conditions:                                     │  ╰───────────────────────────────────────────────────╯\n│ Projections: detector_key, date_key,         │  │ road_class_key = road_class_key                 │\n│              sum_flow_clean, n_flow_clean    │  │ 158 rows                                    0µs │\n│ Dynamic Filters:                             │  ╰────────────────────────┬────────────────────────╯\n│ optional: detector_key IN PRF(detector_key), │                           ├────────────────────────────────────────────╮\n│ optional: date_key IN PRF(date_key)          │  ╭─ Table Scan ───────────┴────────────────────────╮  ╭─ Table Scan ───┴───────────────╮\n│ Row Groups Scanned: 22 / 22                  │  │ Table: utd19.dw.dim_detector                    │  │ Table: utd19.dw.dim_road_class │\n│ 2,633,638 rows                        20.0ms │  │ Type: Sequential Scan                           │  │ Type: Sequential Scan          │\n╰──────────────────────────────────────────────╯  │ Projections: detector_key, road_class_key       │  │ Projections: road_class_key,   │\n                                                  │ Filters: detector_key >= 1                      │  │              road_group        │\n                                                  │ Dynamic Filters:                                │  │ Row Groups Scanned: 1 / 1      │\n                                                  │ optional: road_class_key IN PRF(road_class_key) │  │ 8 rows                     0µs │\n                                                  │ Row Groups Scanned: 1 / 1                       │  ╰────────────────────────────────╯\n                                                  │ 158 rows                                    0µs │\n                                                  ╰─────────────────────────────────────────────────╯\n"
+    },
+    {
+      "id": "Q4",
+      "name": "Cửa sổ DSS toàn thành phố",
+      "params": [
+        "2015-06-30"
+      ],
+      "sql": "SELECT detid,n,n_err,mean_occ_clean,mean_flow_clean FROM mart.dss_detector_window WHERE day=? AND slot=48 ORDER BY detid",
+      "rows_returned": 147,
+      "result_sha256": "8c972c3c9deca94fed620e755cea5d88d7d85b41ddb4459cc701705ed82e0927",
+      "first_observed_ms": 7.813499999997475,
+      "samples_ms": [
+        2.690800000038962,
+        2.042799999969702,
+        2.085700000009183,
+        2.0249000000376327,
+        1.777600000025359,
+        1.7614999999864267,
+        1.7459000000030755,
+        1.7785000000003492,
+        1.8493000000034954,
+        1.785900000015772,
+        1.9479000000046653,
+        1.848599999959788,
+        1.7898000000400316,
+        1.67709999999488,
+        1.6605000000140535
+      ],
+      "median_ms": 1.7898000000400316,
+      "p95_ms": 2.2672300000181163,
+      "min_ms": 1.6605000000140535,
+      "max_ms": 2.690800000038962,
+      "explain_analyze": "╭─ Summary ───────────╮\n│ Total Time: 0.0014s │\n╰─────────────────────╯\n╭─ Projection ─────────────────────────────╮\n│ Projections:                             │\n│ __internal_decompress_string(#0),        │\n│ CAST(#1 AS SMALLINT),                    │\n│ CAST(#2 AS SMALLINT), #3, #4             │\n│ 147 rows                             0µs │\n╰─────────────────────┒┎───────────────────╯\n╭─ Order By ──────────┚┖───────────────────╮\n│ Order By: detid ASC                      │\n│ 147 rows                             0µs │\n╰─────────────────────┒┎───────────────────╯\n╭─ Projection ────────┚┖───────────────────╮\n│ Projections:                             │\n│ __internal_compress_string_uhugeint(#0), │\n│ CAST(#1 AS TINYINT),                     │\n│ CAST(#2 AS TINYINT), #3, #4              │\n│ 147 rows                             0µs │\n╰─────────────────────┒┎───────────────────╯\n╭─ Table Scan ────────┚┖───────────────────╮\n│ Table: utd19.mart.dss_detector_window    │\n│ Type: Sequential Scan                    │\n│ Projections: detid, n, n_err,            │\n│              mean_occ_clean,             │\n│              mean_flow_clean             │\n│ Filters: day = '2015-06-30', slot = 48   │\n│ Row Groups Scanned: 1 / 22               │\n│ 147 rows                             0µs │\n╰──────────────────────────────────────────╯\n"
+    },
+    {
+      "id": "Q5",
+      "name": "DQ theo tháng",
+      "params": [],
+      "sql": "SELECT d.year_month,sum(s.n_valid_windows) AS valid_windows,sum(s.n_windows) AS windows FROM mart.detector_day_15min s JOIN dw.dim_date d USING(date_key) GROUP BY 1 ORDER BY 1",
+      "rows_returned": 6,
+      "result_sha256": "10be1b0729b2d6d80db25f2e1780efb8d01a3dfcd5b6779dbbc68b23a114b570",
+      "first_observed_ms": 4.357599999991635,
+      "samples_ms": [
+        3.2570000000191612,
+        3.067900000019108,
+        3.0757000000107837,
+        3.0606999999918116,
+        3.2100999999897795,
+        3.472100000010414,
+        3.0203000000028624,
+        3.1298000000106185,
+        3.282899999987876,
+        3.3855000000357904,
+        3.119299999980285,
+        2.959099999998216,
+        2.9501000000209388,
+        2.944399999989855,
+        3.053700000009485
+      ],
+      "median_ms": 3.0757000000107837,
+      "p95_ms": 3.4114800000281775,
+      "min_ms": 2.944399999989855,
+      "max_ms": 3.472100000010414,
+      "explain_analyze": "╭─ Summary ───────────╮\n│ Total Time: 0.0029s │\n╰─────────────────────╯\n╭─ Projection ────────────────────────────╮\n│ Projections:                            │\n│ __internal_decompress_string(#0), #1,   │\n│ #2                                      │\n│ 6 rows                              0µs │\n╰────────────────────┬────────────────────╯\n╭─ Order By ─────────┴────────────────────╮\n│ Order By: year_month ASC                │\n│ 6 rows                              0µs │\n╰────────────────────┬────────────────────╯\n╭─ Projection ───────┴────────────────────╮\n│ Projections:                            │\n│ __internal_compress_string_ubigint(#0), │\n│ #1, #2                                  │\n│ 6 rows                              0µs │\n╰────────────────────┬────────────────────╯\n╭─ Projection ───────┴────────────────────╮\n│ Projections:                            │\n│ __internal_decompress_string(#0), #1,   │\n│ #2                                      │\n│ 6 rows                              0µs │\n╰────────────────────┬────────────────────╯\n╭─ Hash Group By ────┴────────────────────╮\n│ Groups: #0                              │\n│ Aggregates: sum(#1), sum(#2)            │\n│ 6 rows                              0µs │\n╰────────────────────┒┎───────────────────╯\n╭─ Projection ───────┚┖───────────────────╮\n│ Projections: year_month,                │\n│              n_valid_windows, n_windows │\n│ 27,466 rows                         0µs │\n╰────────────────────┒┎───────────────────╯\n╭─ Projection ───────┚┖───────────────────╮\n│ Projections:                            │\n│ #0, #1,                                 │\n│ __internal_compress_string_ubigint(#2)  │\n│ 27,466 rows                         0µs │\n╰────────────────────┒┎───────────────────╯\n╭─ Hash Join ────────┚┖───────────────────╮\n│ Join Type: INNER                        │\n│ Conditions: date_key = date_key         │\n│ 27,466 rows                         0µs │\n╰────────────────────┰┰───────────────────╯\n                     ┃┠────────────────────────────────────────────────╮\n╭─ Table Scan ───────┚┖───────────────────╮  ╭─ Table Scan ────────────┴─────────────────────────╮\n│ Table: utd19.mart.detector_day_15min    │  │ Table: utd19.dw.dim_date                          │\n│ Type: Sequential Scan                   │  │ Type: Sequential Scan                             │\n│ Projections: date_key, n_valid_windows, │  │ Projections: date_key, year_month                 │\n│              n_windows                  │  │ Filters:                                          │\n│ Dynamic Filters:                        │  │ (date_key >= 20150101) AND (date_key <= 20150630) │\n│ optional: date_key IN PRF(date_key)     │  │ Row Groups Scanned: 1 / 1                         │\n│ Row Groups Scanned: 1 / 1               │  │ 181 rows                                      0µs │\n│ 27,466 rows                         0µs │  ╰───────────────────────────────────────────────────╯\n╰─────────────────────────────────────────╯\n"
+    },
+    {
+      "id": "Q6",
+      "name": "View theo tháng/detector",
+      "params": [
+        201506,
+        20
+      ],
+      "sql": "SELECT date_key,slot_key,mean_flow_clean FROM dw.v_traffic_15min WHERE date_key//100=? AND detector_key=? ORDER BY date_key,slot_key",
+      "rows_returned": 2880,
+      "result_sha256": "22d71df1fb4c7318fe64589ecb15c17c49bb718f8e335ab5cfc540418164e000",
+      "first_observed_ms": 12.551000000030399,
+      "samples_ms": [
+        8.486899999979869,
+        13.978399999984958,
+        10.309400000039659,
+        7.654600000023493,
+        7.866800000044805,
+        8.607600000004823,
+        8.23769999999513,
+        9.906699999987723,
+        8.426200000030803,
+        8.32189999999855,
+        8.723000000031789,
+        9.561299999973016,
+        8.309599999961392,
+        7.949699999983295,
+        8.239000000003216
+      ],
+      "median_ms": 8.426200000030803,
+      "p95_ms": 11.410100000023245,
+      "min_ms": 7.654600000023493,
+      "max_ms": 13.978399999984958,
+      "explain_analyze": "╭─ Summary ───────────╮\n│ Total Time: 0.0083s │\n╰─────────────────────╯\n╭─ Projection ──────────────────────────────────────────────────────────╮\n│ Projections:                                                          │\n│ __internal_decompress_integral_integer(#0, 20150101),                 │\n│ CAST(#1 AS SMALLINT), #2                                              │\n│ 2,880 rows                                                        0µs │\n╰───────────────────────────────────┬───────────────────────────────────╯\n╭─ Order By ────────────────────────┴───────────────────────────────────╮\n│ Order By: date_key ASC, slot_key ASC                                  │\n│ 2,880 rows                                                        0µs │\n╰───────────────────────────────────┬───────────────────────────────────╯\n╭─ Projection ──────────────────────┴───────────────────────────────────╮\n│ Projections:                                                          │\n│ __internal_compress_integral_usmallint(#0, 20150101),                 │\n│ CAST(#1 AS TINYINT), #2                                               │\n│ 2,880 rows                                                        0µs │\n╰───────────────────────────────────┬───────────────────────────────────╯\n╭─ Filter ──────────────────────────┴───────────────────────────────────╮\n│ Expression: (date_key // 100) = 201506                                │\n│ 2,880 rows                                                        0µs │\n╰───────────────────────────────────┒┎──────────────────────────────────╯\n╭─ Projection ──────────────────────┚┖──────────────────────────────────╮\n│ Projections: date_key, slot_key, mean_flow_clean                      │\n│ 17,361 rows                                                       0µs │\n╰───────────────────────────────────┒┎──────────────────────────────────╯\n╭─ Hash Join ───────────────────────┚┖──────────────────────────────────╮\n│ Join Type: INNER                                                      │\n│ Conditions: date_key = date_key                                       │\n│ 17,361 rows                                                       0µs │\n╰───────────────────────────────────┬───────────────────────────────────╯\n                                    ├───────────────────────────────────────────────────────────┰┒\n╭─ Table Scan ──────────────────────┴───────────────────────────────────╮  ╭─ Hash Join ────────┚┖───────────────────╮\n│ Table: utd19.dw.dim_date                                              │  │ Join Type: INNER                        │\n│ Type: Sequential Scan                                                 │  │ Conditions: detector_key = detector_key │\n│ Projections: date_key                                                 │  │ 17,361 rows                         0µs │\n│ Filters:                                                              │  ╰────────────────────┰┰───────────────────╯\n│ (date_key >= 20150101) AND (date_key <= 20150630)                     │                       ┃┠───────────────────────────────────────╮\n│ Dynamic Filters:                                                      │  ╭─ Table Scan ───────┚┖───────────────────╮  ╭─ Hash Join ────┴────────────────╮\n│ optional: (date_key >= 20150101) AND optional: (date_key <= 20150630) │  │ Table: utd19.dw.fact_traffic_15min      │  │ Join Type: INNER                │\n│ Row Groups Scanned: 1 / 1                                             │  │ Type: Sequential Scan                   │  │ Conditions: city_key = city_key │\n│ 181 rows                                                          0µs │  │ Projections: detector_key, date_key,    │  │ 1 row                       0µs │\n╰───────────────────────────────────────────────────────────────────────╯  │              slot_key, n_flow_clean,    │  ╰────────────────┬────────────────╯\n                                                                           │              sum_flow_clean             │                   ├───────────────────────────────────╮\n                                                                           │ Filters: detector_key = 20              │  ╭─ Table Scan ───┴────────────────╮  ╭─ Table Scan ──┴──────────────╮\n                                                                           │ Dynamic Filters: detector_key = 20      │  │ Table: utd19.dw.dim_city        │  │ Table: utd19.dw.dim_detector │\n                                                                           │ Row Groups Scanned: 22 / 22             │  │ Type: Index Scan                │  │ Type: Index Scan             │\n                                                                           │ 17,361 rows                         0µs │  │ Projections: city_key           │  │ Projections: detector_key,   │\n                                                                           ╰─────────────────────────────────────────╯  │ Dynamic Filters: city_key = 1   │  │              city_key        │\n                                                                                                                        │ Row Groups Scanned: 0 / 1       │  │ Filters: detector_key = 20   │\n                                                                                                                        │ 1 row                       0µs │  │ Row Groups Scanned: 0 / 1    │\n                                                                                                                        ╰─────────────────────────────────╯  │ 1 row                    0µs │\n                                                                                                                                                             ╰──────────────────────────────╯\n"
+    },
+    {
+      "id": "Q7",
+      "name": "Tổng hợp ngày từ fact 3 phút",
+      "params": [],
+      "sql": "SELECT date_key,avg(flow_veh_h_lane) FILTER(WHERE coalesce(error_flag,0)=0) AS flow,avg(occupancy) FILTER(WHERE coalesce(error_flag,0)=0) AS occupancy FROM dw.fact_traffic_measurement GROUP BY 1 ORDER BY 1",
+      "rows_returned": 181,
+      "result_sha256": "c6b173ef5d9669762352453c765b34ab718b26981a868acb9c65c447aa546ad6",
+      "first_observed_ms": 138.312400000018,
+      "samples_ms": [
+        120.80390000005536,
+        132.40669999999,
+        113.93800000001875,
+        115.36490000003141,
+        110.83080000003065,
+        116.51679999999942,
+        149.4971999999848,
+        139.369199999976,
+        129.40429999997605,
+        122.91709999999512,
+        130.42120000000068,
+        120.41630000004488,
+        138.66100000001325,
+        132.31909999996105,
+        142.8278000000205
+      ],
+      "median_ms": 129.40429999997605,
+      "p95_ms": 144.82862000000978,
+      "min_ms": 110.83080000003065,
+      "max_ms": 149.4971999999848,
+      "explain_analyze": "╭─ Summary ──────────╮\n│ Total Time: 0.148s │\n╰────────────────────╯\n╭─ Projection ──────────────────────────────────────────╮\n│ Projections:                                          │\n│ __internal_decompress_integral_integer(#0, 20150101), │\n│ #1, #2                                                │\n│ 181 rows                                          0µs │\n╰───────────────────────────┬───────────────────────────╯\n╭─ Order By ────────────────┴───────────────────────────╮\n│ Order By: date_key ASC                                │\n│ 181 rows                                          0µs │\n╰───────────────────────────┬───────────────────────────╯\n╭─ Projection ──────────────┴───────────────────────────╮\n│ Projections:                                          │\n│ __internal_compress_integral_usmallint(#0, 20150101), │\n│ #1, #2                                                │\n│ 181 rows                                          0µs │\n╰───────────────────────────┬───────────────────────────╯\n╭─ Projection ──────────────┴───────────────────────────╮\n│ Projections:                                          │\n│ __internal_decompress_integral_integer(#0, 20150101), │\n│ #1, #2                                                │\n│ 181 rows                                          0µs │\n╰───────────────────────────┬───────────────────────────╯\n╭─ Perfect Hash Group By ───┴───────────────────────────╮\n│ Groups: #0                                            │\n│ Aggregates:                                           │\n│ avg(#1) FILTER (WHERE #2) Filter: #2,                 │\n│ avg(#3) FILTER (WHERE #3) Filter: #3                  │\n│ 181 rows                                      350.0ms │\n╰───────────────────────────┒┎──────────────────────────╯\n╭─ Projection ──────────────┚┖──────────────────────────╮\n│ Projections:                                          │\n│ date_key, CAST(flow_veh_h_lane AS DOUBLE), #2,        │\n│ CAST(occupancy AS DOUBLE), #2                         │\n│ 13,138,969 rows                                30.0ms │\n╰───────────────────────────┒┎──────────────────────────╯\n╭─ Projection ──────────────┚┖──────────────────────────╮\n│ Projections:                                          │\n│ __internal_compress_integral_usmallint(#0, 20150101), │\n│ #1, #2, #3                                            │\n│ 13,138,969 rows                                10.0ms │\n╰───────────────────────────┒┎──────────────────────────╯\n╭─ Projection ──────────────┚┖──────────────────────────╮\n│ Projections: date_key, flow_veh_h_lane,               │\n│              error_flag = 0, occupancy                │\n│ 13,138,969 rows                                30.0ms │\n╰───────────────────────────┒┎──────────────────────────╯\n╭─ Table Scan ──────────────┚┖──────────────────────────╮\n│ Table: utd19.dw.fact_traffic_measurement              │\n│ Type: Sequential Scan                                 │\n│ Projections: date_key, error_flag, flow_veh_h_lane,   │\n│              occupancy                                │\n│ Row Groups Scanned: 107 / 107                         │\n│ 13,138,969 rows                               140.0ms │\n╰───────────────────────────────────────────────────────╯\n"
+    },
+    {
+      "id": "Q8",
+      "name": "View cùng tập kết quả, lọc khoảng date_key",
+      "params": [
+        20150601,
+        20150631,
+        20
+      ],
+      "sql": "SELECT date_key,slot_key,mean_flow_clean FROM dw.v_traffic_15min WHERE date_key BETWEEN ? AND ? AND detector_key=? ORDER BY date_key,slot_key",
+      "rows_returned": 2880,
+      "result_sha256": "22d71df1fb4c7318fe64589ecb15c17c49bb718f8e335ab5cfc540418164e000",
+      "first_observed_ms": 8.851800000002186,
+      "samples_ms": [
+        7.042000000012649,
+        7.182899999975234,
+        7.44150000002719,
+        8.033199999999852,
+        7.483799999988605,
+        8.451100000002043,
+        7.541199999991477,
+        6.888799999956063,
+        6.7937000000029,
+        6.938999999988482,
+        6.780199999980141,
+        6.573500000001786,
+        6.500399999993078,
+        7.209799999998268,
+        11.216600000011567
+      ],
+      "median_ms": 7.182899999975234,
+      "p95_ms": 9.280750000004897,
+      "min_ms": 6.500399999993078,
+      "max_ms": 11.216600000011567,
+      "explain_analyze": "╭─ Summary ───────────╮\n│ Total Time: 0.0067s │\n╰─────────────────────╯\n╭─ Projection ──────────────────────────────────────────╮\n│ Projections:                                          │\n│ __internal_decompress_integral_integer(#0, 20150601), │\n│ CAST(#1 AS SMALLINT), #2                              │\n│ 2,880 rows                                        0µs │\n╰───────────────────────────┒┎──────────────────────────╯\n╭─ Order By ────────────────┚┖──────────────────────────╮\n│ Order By: date_key ASC, slot_key ASC                  │\n│ 2,880 rows                                        0µs │\n╰───────────────────────────┒┎──────────────────────────╯\n╭─ Projection ──────────────┚┖──────────────────────────╮\n│ Projections:                                          │\n│ __internal_compress_integral_utinyint(#0, 20150601),  │\n│ CAST(#1 AS TINYINT), #2                               │\n│ 2,880 rows                                        0µs │\n╰───────────────────────────┒┎──────────────────────────╯\n╭─ Projection ──────────────┚┖──────────────────────────╮\n│ Projections: date_key, slot_key, mean_flow_clean      │\n│ 2,880 rows                                        0µs │\n╰───────────────────────────┒┎──────────────────────────╯\n╭─ Hash Join ───────────────┚┖──────────────────────────╮\n│ Join Type: INNER                                      │\n│ Conditions: date_key = date_key                       │\n│ 2,880 rows                                        0µs │\n╰───────────────────────────┰┰──────────────────────────╯\n                            ┃┠──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╮\n╭─ Hash Join ───────────────┚┖──────────────────────────╮                                                                         ╭─ Filter ────────────────┴─────────────────────────╮\n│ Join Type: INNER                                      │                                                                         │ Expression: date_key <= 20150630                  │\n│ Conditions: detector_key = detector_key               │                                                                         │ 30 rows                                       0µs │\n│ 2,880 rows                                        0µs │                                                                         ╰─────────────────────────┬─────────────────────────╯\n╰───────────────────────────┰┰──────────────────────────╯                                                                         ╭─ Table Scan ────────────┴─────────────────────────╮\n                            ┃┠──────────────────────────────────────────────╮                                                     │ Table: utd19.dw.dim_date                          │\n╭─ Table Scan ──────────────┚┖──────────────────────────╮  ╭─ Hash Join ────┴────────────────╮                                    │ Type: Sequential Scan                             │\n│ Table: utd19.dw.fact_traffic_15min                    │  │ Join Type: INNER                │                                    │ Projections: date_key                             │\n│ Type: Sequential Scan                                 │  │ Conditions: city_key = city_key │                                    │ Filters:                                          │\n│ Projections: detector_key, date_key, slot_key,        │  │ 1 row                       0µs │                                    │ (date_key >= 20150601) AND (date_key <= 20150631) │\n│              n_flow_clean, sum_flow_clean             │  ╰────────────────┬────────────────╯                                    │ Row Groups Scanned: 1 / 1                         │\n│ Filters: detector_key = 20, date_key >= 20150601      │                   ├───────────────────────────────────╮                 │ 30 rows                                       0µs │\n│ Dynamic Filters:                                      │  ╭─ Table Scan ───┴────────────────╮  ╭─ Table Scan ──┴──────────────╮  ╰───────────────────────────────────────────────────╯\n│ detector_key = 20,                                    │  │ Table: utd19.dw.dim_city        │  │ Table: utd19.dw.dim_detector │\n│ optional: date_key IN PRF(date_key)                   │  │ Type: Index Scan                │  │ Type: Index Scan             │\n│ Row Groups Scanned: 5 / 22                            │  │ Projections: city_key           │  │ Projections: detector_key,   │\n│ 2,880 rows                                        0µs │  │ Dynamic Filters: city_key = 1   │  │              city_key        │\n╰───────────────────────────────────────────────────────╯  │ Row Groups Scanned: 0 / 1       │  │ Filters: detector_key = 20   │\n                                                           │ 1 row                       0µs │  │ Row Groups Scanned: 0 / 1    │\n                                                           ╰─────────────────────────────────╯  │ 1 row                    0µs │\n                                                                                                ╰──────────────────────────────╯\n"
+    }
+  ],
+  "daily_rollup_comparison": {
+    "dates_compared": 181,
+    "differences": 0,
+    "max_flow_error": 0.0,
+    "max_occupancy_error": 0.0
+  },
+  "indexes": [
+    {
+      "schema_name": "dw",
+      "table_name": "dim_city",
+      "index_name": "idx_city_key",
+      "is_unique": true,
+      "expressions": "[city_key]"
+    },
+    {
+      "schema_name": "dw",
+      "table_name": "dim_date",
+      "index_name": "idx_date_key",
+      "is_unique": true,
+      "expressions": "[date_key]"
+    },
+    {
+      "schema_name": "dw",
+      "table_name": "dim_detector",
+      "index_name": "idx_detector_key",
+      "is_unique": true,
+      "expressions": "[detector_key]"
+    },
+    {
+      "schema_name": "dw",
+      "table_name": "dim_link",
+      "index_name": "idx_link_key",
+      "is_unique": true,
+      "expressions": "[link_key]"
+    },
+    {
+      "schema_name": "dw",
+      "table_name": "dim_road_class",
+      "index_name": "idx_road_class_key",
+      "is_unique": true,
+      "expressions": "[road_class_key]"
+    },
+    {
+      "schema_name": "dw",
+      "table_name": "dim_time_slot",
+      "index_name": "idx_slot_key",
+      "is_unique": true,
+      "expressions": "[slot_key]"
+    }
+  ],
+  "index_experiment": {
+    "candidate": "INDEX(detector_key,date_key)",
+    "table": "bản sao TEMP của toàn bộ fact 15 phút",
+    "copy_ms": 193.49549999998317,
+    "build_ms": 350.577200000032,
+    "before": {
+      "id": "Q1",
+      "name": "Tra cứu detector/ngày",
+      "params": [
+        20,
+        20150630
+      ],
+      "sql": "SELECT slot_key,n_intervals,n_err,sum_flow_clean/nullif(n_flow_clean,0) AS flow FROM perf_fact15 WHERE detector_key=? AND date_key=? ORDER BY slot_key",
+      "rows_returned": 96,
+      "result_sha256": "551df4236295317bf21029292dd2e02154485609ebaa324b92755974da411467",
+      "first_observed_ms": 2.962299999978768,
+      "samples_ms": [
+        3.2097000000135267,
+        2.416399999958685,
+        3.215399999987767,
+        2.4323000000094908,
+        2.3657000000412154,
+        2.217900000005102,
+        2.025399999979527,
+        2.024699999992663,
+        2.0101999999724285,
+        1.8935999999598607,
+        1.9367999999531094,
+        2.111899999988509,
+        2.079399999956877,
+        1.8572000000176558,
+        1.7681999999581421
+      ],
+      "median_ms": 2.079399999956877,
+      "p95_ms": 3.211410000005799,
+      "min_ms": 1.7681999999581421,
+      "max_ms": 3.215399999987767,
+      "explain_analyze": "╭─ Summary ───────────╮\n│ Total Time: 0.0017s │\n╰─────────────────────╯\n╭─ Projection ───────────────────────╮\n│ Projections: CAST(#0 AS SMALLINT), │\n│              CAST(#1 AS SMALLINT), │\n│              CAST(#2 AS SMALLINT), │\n│              #3                    │\n│ 96 rows                        0µs │\n╰──────────────────┒┎────────────────╯\n╭─ Order By ───────┚┖────────────────╮\n│ Order By: slot_key ASC             │\n│ 96 rows                        0µs │\n╰──────────────────┒┎────────────────╯\n╭─ Projection ─────┚┖────────────────╮\n│ Projections: CAST(#0 AS TINYINT),  │\n│              CAST(#1 AS TINYINT),  │\n│              CAST(#2 AS TINYINT),  │\n│              #3                    │\n│ 96 rows                        0µs │\n╰──────────────────┒┎────────────────╯\n╭─ Projection ─────┚┖────────────────╮\n│ Projections: slot_key,             │\n│              n_intervals, n_err,   │\n│              flow                  │\n│ 96 rows                        0µs │\n╰──────────────────┒┎────────────────╯\n╭─ Table Scan ─────┚┖────────────────╮\n│ Table: \"temp\".main.perf_fact15     │\n│ Type: Sequential Scan              │\n│ Projections: slot_key,             │\n│              n_intervals, n_err,   │\n│              sum_flow_clean,       │\n│              n_flow_clean          │\n│ Filters: detector_key = 20,        │\n│          date_key = 20150630       │\n│ Row Groups Scanned: 1 / 22         │\n│ 96 rows                        0µs │\n╰────────────────────────────────────╯\n"
+    },
+    "after": {
+      "id": "Q1",
+      "name": "Tra cứu detector/ngày",
+      "params": [
+        20,
+        20150630
+      ],
+      "sql": "SELECT slot_key,n_intervals,n_err,sum_flow_clean/nullif(n_flow_clean,0) AS flow FROM perf_fact15 WHERE detector_key=? AND date_key=? ORDER BY slot_key",
+      "rows_returned": 96,
+      "result_sha256": "551df4236295317bf21029292dd2e02154485609ebaa324b92755974da411467",
+      "first_observed_ms": 2.4720999999772175,
+      "samples_ms": [
+        2.4473999999941043,
+        1.9507000000089647,
+        2.0048000000087995,
+        2.0197000000052867,
+        2.0695000000046093,
+        1.8972999999959939,
+        1.9695999999953528,
+        1.9375000000536602,
+        2.0360000000323453,
+        2.134300000022904,
+        2.529400000014448,
+        1.8830999999863707,
+        2.0064000000274973,
+        2.3626999999919462,
+        1.887800000019979
+      ],
+      "median_ms": 2.0064000000274973,
+      "p95_ms": 2.4720000000002074,
+      "min_ms": 1.8830999999863707,
+      "max_ms": 2.529400000014448,
+      "explain_analyze": "╭─ Summary ───────────╮\n│ Total Time: 0.0018s │\n╰─────────────────────╯\n╭─ Projection ───────────────────────╮\n│ Projections: CAST(#0 AS SMALLINT), │\n│              CAST(#1 AS SMALLINT), │\n│              CAST(#2 AS SMALLINT), │\n│              #3                    │\n│ 96 rows                        0µs │\n╰──────────────────┒┎────────────────╯\n╭─ Order By ───────┚┖────────────────╮\n│ Order By: slot_key ASC             │\n│ 96 rows                        0µs │\n╰──────────────────┒┎────────────────╯\n╭─ Projection ─────┚┖────────────────╮\n│ Projections: CAST(#0 AS TINYINT),  │\n│              CAST(#1 AS TINYINT),  │\n│              CAST(#2 AS TINYINT),  │\n│              #3                    │\n│ 96 rows                        0µs │\n╰──────────────────┒┎────────────────╯\n╭─ Projection ─────┚┖────────────────╮\n│ Projections: slot_key,             │\n│              n_intervals, n_err,   │\n│              flow                  │\n│ 96 rows                        0µs │\n╰──────────────────┒┎────────────────╯\n╭─ Table Scan ─────┚┖────────────────╮\n│ Table: \"temp\".main.perf_fact15     │\n│ Type: Sequential Scan              │\n│ Projections: slot_key,             │\n│              n_intervals, n_err,   │\n│              sum_flow_clean,       │\n│              n_flow_clean          │\n│ Filters: detector_key = 20,        │\n│          date_key = 20150630       │\n│ Row Groups Scanned: 1 / 22         │\n│ 96 rows                        0µs │\n╰────────────────────────────────────╯\n"
+    },
+    "same_results": true,
+    "median_ratio_before_after": 1.036383572532087,
+    "index_scan_observed": false,
+    "limitation": "Một thứ tự before→after trên bảng tạm, không phải cold-cache/concurrent benchmark; chi phí RAM/index và tốc độ ETL chưa được benchmark."
+  },
+  "rewrite_same_results": true,
+  "quality_status": "MEASURED_NO_ACCEPTANCE_THRESHOLD",
+  "performance_status": "MEASURED_NO_SLA",
+  "latest_successful_etl": {
+    "run_id": "e1b37bad-5f24-4a31-aee3-949fdbaeec1b",
+    "mode": "full_3min",
+    "status": "SUCCESS",
+    "elapsed_seconds": 93.438173
+  },
+  "etl_steps": [
+    {
+      "step": "10_staging/12_stg_measurements",
+      "seconds": 70.854,
+      "rows_out": 13166423
+    },
+    {
+      "step": "20_clean/22_clean_measurements",
+      "seconds": 13.004,
+      "rows_out": 13138969
+    },
+    {
+      "step": "30_dw/36_fact_traffic_measurement",
+      "seconds": 2.784,
+      "rows_out": 13138969
+    },
+    {
+      "step": "30_dw/38_fact_traffic_15min",
+      "seconds": 1.24,
+      "rows_out": 2633638
+    },
+    {
+      "step": "60_validation/61_full",
+      "seconds": 0.847,
+      "rows_out": null
+    },
+    {
+      "step": "60_validation/60_common",
+      "seconds": 0.766,
+      "rows_out": 11
+    },
+    {
+      "step": "40_mart/43_dss_detector_window",
+      "seconds": 0.627,
+      "rows_out": 2633638
+    },
+    {
+      "step": "50_checks/50_reconciliation",
+      "seconds": 0.611,
+      "rows_out": 8
+    },
+    {
+      "step": "40_mart/41_mfd_city_interval",
+      "seconds": 0.335,
+      "rows_out": 86612
+    },
+    {
+      "step": "20_clean/21_clean_links",
+      "seconds": 0.221,
+      "rows_out": 23260
+    },
+    {
+      "step": "40_mart/44_congestion_kpi",
+      "seconds": 0.219,
+      "rows_out": 4342
+    },
+    {
+      "step": "10_staging/11_stg_links",
+      "seconds": 0.216,
+      "rows_out": 140858
+    },
+    {
+      "step": "40_mart/40_detector_day_coverage",
+      "seconds": 0.158,
+      "rows_out": 27466
+    },
+    {
+      "step": "30_dw/33_dim_detector",
+      "seconds": 0.139,
+      "rows_out": 158
+    },
+    {
+      "step": "20_clean/20_clean_detectors",
+      "seconds": 0.094,
+      "rows_out": 158
+    },
+    {
+      "step": "40_mart/45_detector_day_15min",
+      "seconds": 0.088,
+      "rows_out": 27466
+    },
+    {
+      "step": "10_staging/10_stg_detectors",
+      "seconds": 0.068,
+      "rows_out": 23626
+    },
+    {
+      "step": "10_staging/weather_daily",
+      "seconds": 0.042,
+      "rows_out": 181
+    },
+    {
+      "step": "50_checks/51_metadata_catalog",
+      "seconds": 0.027,
+      "rows_out": 22
+    },
+    {
+      "step": "40_mart/42_city_kpi",
+      "seconds": 0.02,
+      "rows_out": 1
+    },
+    {
+      "step": "30_dw/31_dim_road_class",
+      "seconds": 0.015,
+      "rows_out": 8
+    },
+    {
+      "step": "30_dw/34_dim_date",
+      "seconds": 0.015,
+      "rows_out": 366
+    },
+    {
+      "step": "70_access/70_views_indexes",
+      "seconds": 0.01,
+      "rows_out": null
+    },
+    {
+      "step": "30_dw/30_dim_city",
+      "seconds": 0.008,
+      "rows_out": 2
+    },
+    {
+      "step": "30_dw/39_dim_weather",
+      "seconds": 0.006,
+      "rows_out": 365
+    },
+    {
+      "step": "30_dw/35_dim_time_of_day",
+      "seconds": 0.006,
+      "rows_out": 481
+    },
+    {
+      "step": "30_dw/32_dim_link",
+      "seconds": 0.005,
+      "rows_out": 143
+    },
+    {
+      "step": "30_dw/37_dim_time_slot",
+      "seconds": 0.005,
+      "rows_out": 96
+    }
+  ]
+}

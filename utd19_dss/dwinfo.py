@@ -45,6 +45,8 @@ class DwInfo:
             q["load_info"] = (df("SELECT mode, source, date_start, date_end, CAST(loaded_at AS VARCHAR) AS loaded_at FROM etl.load_info") or [None])[0]
             q["reconciliation"] = df("SELECT check_id, description, expected, actual, status FROM etl.reconciliation ORDER BY 1")
             q["run_log"] = df("SELECT step, seconds, rows_out, note FROM etl.run_log ORDER BY logged_at")
+            q["validation"] = df("SELECT check_id, description, expected, actual, status FROM etl.validation_results ORDER BY 1")
+            q["runs"] = df("SELECT run_id, mode, status, CAST(started_at AS VARCHAR) AS started_at, CAST(finished_at AS VARCHAR) AS finished_at, error FROM etl.runs ORDER BY started_at DESC LIMIT 20")
             q["quarantine"] = df("SELECT source, rule_id, count(*) AS n FROM etl.quarantine GROUP BY 1, 2 ORDER BY 3 DESC")
             q["catalog"] = df("SELECT layer, object_name, object_role, grain, source, transformation, description, "
                               "row_count, column_count FROM etl.metadata_catalog")
