@@ -42,7 +42,8 @@ def test_pipeline_end_to_end(tmp_path):
     raw = tmp_path / "raw"
     _make_raw(raw)
     env = {**os.environ, "UTD_DATA_ROOT": str(raw), "UTD_WORK_DIR": str(tmp_path / "work"),
-           "UTD_EXPORT_DIR": str(tmp_path / "export"), "UTD_SMOKE_ROWS": "", "PYTHONIOENCODING": "utf-8"}
+           "UTD_EXPORT_DIR": str(tmp_path / "export"), "UTD_SMOKE_ROWS": "", "PYTHONIOENCODING": "utf-8",
+           "PYTHONPATH": os.pathsep.join([str(ROOT / "src"), os.environ.get("PYTHONPATH", "")]).rstrip(os.pathsep)}
     code = textwrap.dedent("""
         from utd19_dw.pipeline import run_pipeline
         from utd19_dw.db import db
@@ -103,7 +104,8 @@ def test_pipeline_from_export(tmp_path):
                   "fclass": ["primary", "tertiary"], "linkid": ["1.0", "2.0"], "pos": [0.1, 0.2], "limit": [50, 0]}
                  ).to_csv(exp / "detector_location_profile.csv", index=False)
     env = {**os.environ, "UTD_DATA_ROOT": str(raw), "UTD_WORK_DIR": str(tmp_path / "work"),
-           "UTD_EXPORT_DIR": str(tmp_path / "export"), "UTD_SMOKE_ROWS": "", "PYTHONIOENCODING": "utf-8"}
+           "UTD_EXPORT_DIR": str(tmp_path / "export"), "UTD_SMOKE_ROWS": "", "PYTHONIOENCODING": "utf-8",
+           "PYTHONPATH": os.pathsep.join([str(ROOT / "src"), os.environ.get("PYTHONPATH", "")]).rstrip(os.pathsep)}
     code = textwrap.dedent("""
         from utd19_dw.pipeline import run_pipeline
         from utd19_dw.db import db

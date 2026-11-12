@@ -49,6 +49,8 @@ desktop.ini
 # Frontend
 frontend/node_modules/
 frontend/.vite/
+src/frontend/node_modules/
+src/frontend/.vite/
 npm-debug.log*
 
 # Ngoại lệ cho các mẫu *.csv / *.gz ở trên: dữ liệu mẫu và bảng kết quả đánh giá

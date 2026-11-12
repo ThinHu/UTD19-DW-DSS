@@ -1,6 +1,6 @@
 """REST API cho dashboard DSS.
 
-    uvicorn utd19_dss.api:app --port 8000        # hoặc: make dss-api
+    uvicorn utd19_dss.api:app --port 8000        # hoặc: make dss-serve
     Mở http://localhost:8000
 """
 from __future__ import annotations
@@ -25,10 +25,13 @@ from .config import BASE_DIR, artifacts_dir
 from .data import SLOTS
 from .live import LiveEngine, slot_label
 from .dwinfo import DwInfo
+from utd19_dw.config import settings as dw_settings
+from utd19_dw.olap import OlapService
 
 ENG: LiveEngine | None = None
 DW: DwInfo | None = None
-FRONTEND = BASE_DIR / "frontend" / "dist"
+OLAP = OlapService(dw_settings.DB_PATH, dw_settings.FLOW_MAX)
+FRONTEND = BASE_DIR / "src" / "frontend" / "dist"
 
 
 def clean(o):
@@ -404,6 +407,39 @@ def dw_quality():
     if not DW or not DW.available:
         raise HTTPException(503, "Chưa có kho dữ liệu data/work/utd19.duckdb — chạy: python -m utd19_dw.pipeline")
     return clean(DW.quality())
+
+
+# OLAP: truy vấn fact 15 phút theo các chiều ngày, giờ và đường; không phụ thuộc luồng replay.
+@app.get("/api/olap/options")
+def olap_options():
+    try:
+        return OLAP.options()
+    except FileNotFoundError as exc:
+        raise HTTPException(503, str(exc)) from exc
+
+
+@app.get("/api/olap/query")
+def olap_query(period: str = "month", road: str = "all", group_by: str | None = None,
+               split_by: str | None = None, start: str | None = None,
+               end: str | None = None, day_type: str | None = None,
+               day_of_week: int | None = None, daypart: str | None = None,
+               peak: bool | None = None, year: int | None = None,
+               quarter: int | None = None, month: int | None = None,
+               date_value: str | None = None, hour: int | None = None,
+               hour_start: int | None = None, hour_end: int | None = None,
+               road_name: str | None = None, road_group: str | None = None,
+               fclass: str | None = None, detid: str | None = None):
+    try:
+        return OLAP.query(period=period, road=road, group_by=group_by, split_by=split_by,
+                          start=start, end=end, day_type=day_type, day_of_week=day_of_week,
+                          daypart=daypart, peak=peak, year=year, quarter=quarter,
+                          month=month, date_value=date_value, hour=hour,
+                          hour_start=hour_start, hour_end=hour_end,
+                          road_name=road_name, road_group=road_group, fclass=fclass, detid=detid)
+    except FileNotFoundError as exc:
+        raise HTTPException(503, str(exc)) from exc
+    except ValueError as exc:
+        raise HTTPException(400, str(exc)) from exc
 
 
 # ---------------------------------------------------------------------------

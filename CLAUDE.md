@@ -6,16 +6,16 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 Team split: OLAP model, KPI measures, slice/dice analytics dashboard and business questions belong to Ly — don't build them here. DW checks/testing after DW v1 belong to Hữu — changes are OK but must be reported to him.
 
-Two Python packages in one repo (both at the repo root, not under `src/` despite what README.md says):
+Two Python packages and their SQL/frontend source are under `src/`:
 
-- **`utd19_dw`**: a DuckDB data warehouse over the UTD19 traffic dataset (Luzern, 2015-01-01 → 2015-06-30). It runs plain SQL files in stages.
-- **`utd19_dss`** (DSS v5): a decision-support engine plus a FastAPI backend that ranks detectors by a congestion "Priority Score". It has a React/Vite dashboard in `frontend/`.
+- **`src/utd19_dw`**: a DuckDB data warehouse over the UTD19 traffic dataset (Luzern, 2015-01-01 → 2015-06-30). It runs plain SQL files in `src/sql/` in stages.
+- **`src/utd19_dss`** (DSS v5): a decision-support engine plus a FastAPI backend that ranks detectors by a congestion "Priority Score". It has a React/Vite dashboard in `src/frontend/`.
 
 Docs, comments, config notes and UI strings are in Vietnamese. Keep that convention when editing.
 
 ## Commands
 
-`make` targets exist, but `make` may not be installed on this Windows machine, so these are the direct commands:
+Make shortcuts are listed by `make help`. On Windows, `make` may not be installed; these are the equivalent direct commands:
 
 ```bash
 pip install -e .[dev,dss]                 # setup (dss extra = numpy/sklearn/fastapi/uvicorn)
@@ -29,8 +29,8 @@ python -m utd19_dss.build                 # offline DSS build (~5 min) → data/
 python -m utd19_dss.evaluate              # DSS evaluation on June → reports/ (md, json, csv, png)
 uvicorn utd19_dss.api:app --port 8000     # API + built dashboard at http://localhost:8000
 
-cd frontend && npm install && npm run dev # dev UI on :5173, proxies /api → :8000
-cd frontend && npm run build              # rebuilds frontend/dist (served by the API)
+cd src/frontend && npm install && npm run dev # dev UI on :5173, proxies /api → :8000
+cd src/frontend && npm run build              # rebuilds src/frontend/dist (served by the API)
 
 node docs/build_design_doc.js data/dss/meta.json docs/DSS_Thiet_ke_giai_doan1_Vinh_v5.docx reports/dss_evaluation.json  # design doc
 
@@ -42,7 +42,7 @@ pytest tests/test_dss.py::test_priority_renormalises_missing_criteria   # single
 
 ## DW pipeline (`utd19_dw`)
 
-- `pipeline.run_pipeline()` has two modes producing the same star schema. **Full** (`--full`, raw `utd19_u.csv`): runs `sql/00_schema.sql`, then every `*.sql` in `10_staging`, `20_clean`, `30_dw`, `40_mart`, `50_checks`, **sorted by filename**. **Export** (`--from-export`, only `data/raw/luzern_jan_jun/detector_window_15min.csv.gz` present — the usual case on this machine): runs the explicit `EXPORT_STEPS` list, which mixes `sql/export_mode/*` with the shared dimension/mart files and skips everything that needs the 3-minute fact (`36_fact`, `40/41/42/44` marts). Each file runs inside `db.step()`, which writes a row (with the row count of the last table the file creates) to `etl.run_log`. Optional weather is loaded by Python (`load_weather`) into `stg.weather_daily` (empty table if the CSV is missing).
+- `pipeline.run_pipeline()` has two modes producing the same star schema. **Full** (`--full`, raw `utd19_u.csv`): runs `src/sql/00_schema.sql`, then every `*.sql` in `10_staging`, `20_clean`, `30_dw`, `40_mart`, `50_checks`, **sorted by filename**. **Export** (`--from-export`, only `data/raw/luzern_jan_jun/detector_window_15min.csv.gz` present — the usual case on this machine): runs the explicit `EXPORT_STEPS` list, which mixes `src/sql/export_mode/*` with the shared dimension/mart files and skips everything that needs the 3-minute fact (`36_fact`, `40/41/42/44` marts). Each file runs inside `db.step()`, which writes a row (with the row count of the last table the file creates) to `etl.run_log`. Optional weather is loaded by Python (`load_weather`) into `stg.weather_daily` (empty table if the CSV is missing).
 - Grain: `dw.fact_traffic_measurement` (3 min, full mode only) → `dw.fact_traffic_15min` (aggregate fact, additive measures: counts and sums; averages = sum/count). `mart.dss_detector_window` and the DQ snapshot `mart.detector_day_15min` read the 15-min fact, so downstream code doesn't care which mode loaded it.
 - Calendar (`settings.yaml: calendar`) feeds `dim_date` via `{HOLIDAYS_IN}`/`{SPECIAL_DAYS_IN}`/`{DIM_DATE_START}`/`{DIM_DATE_END}`; keep it in sync with `dss.yaml: calendar`.
 - Never create tables with bare `now()` (TIMESTAMPTZ breaks `.df()` without tzdata on Windows) — use `CAST(now() AS TIMESTAMP)`. In DuckDB `/` on integers is float division; use `//` for hour/slot buckets.
@@ -63,7 +63,7 @@ Data flow:
 3. **Live** (`live.py`, `LiveEngine`): loads the artifacts and "replays" June one 15-minute window at a time, seeing only past data. `POST /api/ingest` accepts a CSV of one window with the same columns as the mart. Both paths go through `_score_range`, which reuses `build._block`, so **build and live share the same computation core**. A change to criteria/feature logic must stay consistent across both. `tests/test_dss.py::test_live_matches_batch` checks that live scores match `replay_batch.parquet`. It is skipped if `data/dss/meta.json` doesn't exist.
 4. **DW info** (`dwinfo.py`, `GET /api/dw/quality`): read-only view of `etl.*` tables, star schema columns and monthly coverage; opens the DW per request so the pipeline can rerun while the API is up.
 5. **Goal seeking** (`scoring.threshold_curve` / `goal_seek`, `POST /api/goalseek`): uses `valid_scores.npz` (May) to find the High threshold meeting a precision, recall or capacity (alerts per window at p95) target, and checks it on replayed June windows.
-6. **API** (`api.py`): a global `ENG` LiveEngine is created in the FastAPI lifespan, and a background `replay_loop` advances it while it is playing. Scored results and operator actions are stored in `data/work/dss_results.duckdb` (`store.py`). The API also serves `frontend/dist` (SPA fallback route). The API exits immediately if `python -m utd19_dss.build` hasn't been run.
+6. **API** (`api.py`): a global `ENG` LiveEngine is created in the FastAPI lifespan, and a background `replay_loop` advances it while it is playing. Scored results and operator actions are stored in `data/work/dss_results.duckdb` (`store.py`). The API also serves `src/frontend/dist` (SPA fallback route). The API exits immediately if `python -m utd19_dss.build` hasn't been run.
 
 Leakage guard: `build` makes two grids — `gridV` (`build_grid(..., hist_end=<first validation day>)`) for the validation phase (tiers, detector K-means, neighbour matrix, static features use Jan–Apr only) and `grid` (history to May) for the final phase. Keep that split when adding history-derived quantities.
 
@@ -71,7 +71,7 @@ Scoring semantics (`scoring.py`): `priority()` drops missing criteria (NaN) and 
 
 ## Frontend
 
-React 18 + Vite + Recharts + react-leaflet. Pages are in `frontend/src/pages/` (`Warehouse.jsx` = DW load/reconciliation/metadata view; `ModelPage.jsx` tab `dm` = decision model / architecture; goal seeking lives in `WhatIf.jsx`) and API calls in `frontend/src/api.js`. `frontend/dist` is committed: run `npm run build` after UI changes, because the Python API serves only the built output.
+React 18 + Vite + Recharts + react-leaflet. Pages are in `src/frontend/src/pages/` (`Warehouse.jsx` = DW load/reconciliation/metadata view; `ModelPage.jsx` tab `dm` = decision model / architecture; goal seeking lives in `WhatIf.jsx`) and API calls in `src/frontend/src/api.js`. `src/frontend/dist` is committed: run `npm run build` after UI changes, because the Python API serves only the built output.
 
 ## Evaluation (`evaluate.py`)
 
@@ -79,7 +79,7 @@ Reads `data/dss/meta.json`, `replay_batch.parquet` and `valid_scores.npz` (all w
 
 ## DW notes
 
-- dq_flag bits in `sql/20_clean/22_clean_measurements.sql` must match `bit_value` in `config/dq_rules.yaml`; `tests/test_config.py::test_sql_dq_bits_match_rules` checks this.
+- dq_flag bits in `src/sql/20_clean/22_clean_measurements.sql` must match `bit_value` in `config/dq_rules.yaml`; `tests/test_config.py::test_sql_dq_bits_match_rules` checks this.
 - Rows with unparsable keys, interval outside [0, 86400) (when `interval_oor_mode: reject`) and duplicate keys go to `etl.quarantine`, so reconciliation RC-A (fact = staging − quarantine) holds.
 - Luzern measures every 180 s: `dim_city.interval_length_s` and `dim_time_of_day` use 180 s steps.
 - `tests/test_pipeline_smoke.py` runs the whole SQL pipeline on synthetic data in a temp dir via a subprocess.

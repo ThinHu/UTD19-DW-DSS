@@ -14,7 +14,8 @@ ROOT = Path(__file__).resolve().parent.parent
 def _run(tmp_path, code):
     env = {**os.environ, "UTD_DATA_ROOT": str(tmp_path / "raw"),
            "UTD_WORK_DIR": str(tmp_path / "work"), "UTD_SMOKE_ROWS": "",
-           "PYTHONIOENCODING": "utf-8"}
+           "PYTHONIOENCODING": "utf-8",
+           "PYTHONPATH": os.pathsep.join([str(ROOT / "src"), os.environ.get("PYTHONPATH", "")]).rstrip(os.pathsep)}
     result = subprocess.run([sys.executable, "-X", "utf8", "-c", textwrap.dedent(code)],
                             check=False, cwd=ROOT, env=env, capture_output=True, text=True,
                             encoding="utf-8", timeout=120)

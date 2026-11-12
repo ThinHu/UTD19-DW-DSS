@@ -438,12 +438,12 @@ C.push(...box('Giả định và giới hạn', [
 // ===== 3 =====
 C.push(H1('3. Kiến trúc hiện thực'))
 C.push(...table(['Tầng', 'Thành phần', 'Vai trò'], [
-  ['Data Warehouse', 'sql/30_dw/38_fact_traffic_15min.sql, sql/40_mart/43_dss_detector_window.sql', 'Fact gốc 3 phút → fact tổng hợp dw.fact_traffic_15min → mart.dss_detector_window. Khi chỉ có bản xuất 15 phút, pipeline nạp thẳng fact tổng hợp (--from-export); DSS không phân biệt hai chế độ'],
-  ['Engine (offline)', 'utd19_dss/build.py', `Nạp dữ liệu, luật DQ, K-means, baseline, huấn luyện & chọn mô hình, tối ưu trọng số, kiểm thử tháng 6; ghi artifacts (khoảng ${Math.round(meta.seconds / 60)} phút)`],
-  ['Engine (live)', 'utd19_dss/live.py, engine.py, scoring.py', 'Nhận từng khung (phát lại hoặc POST /api/ingest), tính C1–C5, điểm, mức, hành động (≈ 15 ms/khung); kết quả trùng khớp 100% với chạy lô'],
+  ['Data Warehouse', 'src/sql/30_dw/38_fact_traffic_15min.sql, src/sql/40_mart/43_dss_detector_window.sql', 'Fact gốc 3 phút → fact tổng hợp dw.fact_traffic_15min → mart.dss_detector_window. Khi chỉ có bản xuất 15 phút, pipeline nạp thẳng fact tổng hợp (--from-export); DSS không phân biệt hai chế độ'],
+  ['Engine (offline)', 'src/utd19_dss/build.py', `Nạp dữ liệu, luật DQ, K-means, baseline, huấn luyện & chọn mô hình, tối ưu trọng số, kiểm thử tháng 6; ghi artifacts (khoảng ${Math.round(meta.seconds / 60)} phút)`],
+  ['Engine (live)', 'src/utd19_dss/live.py, engine.py, scoring.py', 'Nhận từng khung (phát lại hoặc POST /api/ingest), tính C1–C5, điểm, mức, hành động (≈ 15 ms/khung); kết quả trùng khớp 100% với chạy lô'],
   ['Lưu trữ kết quả', 'data/work/dss_results.duckdb', 'dss.priority_live (kết quả từng khung), dss.action_log (nhật ký quyết định)'],
-  ['Backend', 'utd19_dss/api.py (FastAPI)', 'REST: /api/state, /api/replay, /api/window(.csv), /api/timeline, /api/detector/{id}, /api/whatif, /api/goalseek, /api/actions, /api/model, /api/dw/quality, /api/ingest'],
-  ['Frontend', 'frontend/ (React + Vite, Leaflet, Recharts)', '8 màn hình mục 1.4; bản build nằm trong frontend/dist và được FastAPI phục vụ tại cổng 8000'],
+  ['Backend', 'src/utd19_dss/api.py (FastAPI)', 'REST: /api/state, /api/replay, /api/window(.csv), /api/timeline, /api/detector/{id}, /api/whatif, /api/goalseek, /api/actions, /api/model, /api/dw/quality, /api/ingest'],
+  ['Frontend', 'src/frontend/ (React + Vite, Leaflet, Recharts)', '8 màn hình mục 1.4; bản build nằm trong src/frontend/dist và được FastAPI phục vụ tại cổng 8000'],
 ], [2, 3.6, 4.4]))
 C.push(H3('3.1. Bốn phân hệ DSS và phân loại (Chương 6)'))
 C.push(...table(['Phân hệ', 'Hiện thực', 'Vai trò'], [
@@ -466,7 +466,7 @@ C.push(brk())
 if (EV) {
   const S0 = EV.strategies
   C.push(H1('4. Đánh giá hệ thống hỗ trợ ra quyết định'))
-  C.push(P(`Đánh giá do module utd19_dss/evaluate.py thực hiện (python -m utd19_dss.evaluate); kết quả đầy đủ ở reports/dss_evaluation.md (kèm bảng CSV và biểu đồ). Mọi lựa chọn làm trên tháng 5, mọi con số dưới đây đo trên **tháng 6** — dữ liệu hệ thống chưa thấy khi dựng. Tháng 6 có ${vn(EV.events_june.total)} detector-khung cần chú ý: ${vn(EV.events_june.now)} đang diễn ra và ${vn(EV.events_june.future_only)} chỉ xảy ra trong 30 phút tới.`))
+  C.push(P(`Đánh giá do module src/utd19_dss/evaluate.py thực hiện (python -m utd19_dss.evaluate); kết quả đầy đủ ở reports/dss_evaluation.md (kèm bảng CSV và biểu đồ). Mọi lựa chọn làm trên tháng 5, mọi con số dưới đây đo trên **tháng 6** — dữ liệu hệ thống chưa thấy khi dựng. Tháng 6 có ${vn(EV.events_june.total)} detector-khung cần chú ý: ${vn(EV.events_june.now)} đang diễn ra và ${vn(EV.events_june.future_only)} chỉ xảy ra trong 30 phút tới.`))
   C.push(H2('4.1. So sánh chiến lược ra quyết định'))
   C.push(...table(['Chiến lược', 'Ngưỡng', 'P@10', 'Cao/ khung', 'Precision Cao', 'Recall Cao', 'F1 Cao', 'Recall đang diễn ra', 'Recall sắp xảy ra'],
     S0.map((r, i) => ({ cells: [r.strategy, `${r.thresholds.high}/${r.thresholds.medium}`, pc(r.p_at_10), vn(r.high_per_window, 1), pc(r.precision_high), pc(r.recall_high), vn(r.f1_high, 3), pc(r.recall_now_high), pc(r.recall_future_high)], fill: i === 0 ? 'E2EFDA' : undefined })),

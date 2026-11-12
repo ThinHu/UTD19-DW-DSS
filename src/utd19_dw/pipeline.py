@@ -5,7 +5,7 @@ import uuid
 from utd19_dw.config import BASE_DIR, settings
 from utd19_dw.db import db
 
-SQL_DIR = BASE_DIR / "sql"
+SQL_DIR = BASE_DIR / "src" / "sql"
 
 def _sql_text(value):
     return str(value).replace("'", "''")

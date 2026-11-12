@@ -6,11 +6,12 @@ Kho dữ liệu giao thông đô thị trên bộ **UTD19 — Luzern (01/01–30
 
 | Thành phần | Mô tả | Lệnh |
 |---|---|---|
-| Data Warehouse (`utd19_dw`, `sql/`) | ETL staging → clean → star schema (Kimball) → data mart, kiểm tra chất lượng, đối soát, kho siêu dữ liệu | `python -m utd19_dw.pipeline` |
+| Data Warehouse (`src/utd19_dw`, `src/sql/`) | ETL staging → clean → star schema (Kimball) → data mart, kiểm tra chất lượng, đối soát, kho siêu dữ liệu | `python -m utd19_dw.pipeline` |
 | DSS engine (`utd19_dss`) | K-means, baseline, tiêu chí C1–C5, Gradient Boosting dự báo 30 phút, trọng số & ngưỡng tối ưu | `python -m utd19_dss.build` |
 | Đánh giá DSS | So sánh chiến lược, ablation, quét ngưỡng, hiệu chỉnh, ổn định → `reports/` | `python -m utd19_dss.evaluate` |
-| Backend + dashboard | FastAPI + React (nền sáng), phát lại tháng 6 như luồng live, what-if, goal seeking, trang kho dữ liệu & ETL | `uvicorn utd19_dss.api:app --port 8000` |
+| Backend + dashboard | FastAPI + React (nền sáng), phát lại tháng 6 như luồng live, what-if, goal seeking, OLAP, trang kho dữ liệu & ETL | `uvicorn utd19_dss.api:app --port 8000` |
 | Tài liệu thiết kế | `docs/DSS_Thiet_ke_giai_doan1_Vinh_v5.docx` | `node docs/build_design_doc.js` |
+| Lệnh Make | Các lệnh tắt cho setup, DW, DSS, frontend và tài liệu | `make help` |
 
 ## 1. Kết quả chính (tháng 6/2015 — dữ liệu chưa dùng khi dựng)
 
@@ -35,21 +36,15 @@ Báo cáo đầy đủ: [`reports/dss_evaluation.md`](reports/dss_evaluation.md)
 ## 2. Cấu trúc thư mục
 
 ```text
-├── config/
+├── src/                        # toàn bộ mã nguồn cần nộp
+│   ├── sql/                    # ETL chạy theo thứ tự tên file trong từng thư mục
+│   ├── utd19_dw/               # pipeline (2 chế độ), profiling, export, weather (nguồn ngoài)
+│   ├── utd19_dss/              # DSS: data, baseline, engine, models, scoring, build, evaluate, live, store, dwinfo, api
+│   └── frontend/               # React + Vite; bản build sẵn ở src/frontend/dist (API phục vụ trực tiếp)
+├── config/                     # cấu hình được dùng chung bởi mã nguồn trong src/
 │   ├── settings.yaml         # DW: thành phố, khoảng ngày, RAM, FLOW_MAX, luật loại khỏi mart
 │   ├── dq_rules.yaml         # DW: bitmask luật chất lượng dữ liệu
 │   └── dss.yaml              # DSS: chia dữ liệu, luật DQ, K-means, tiêu chí, ML, trọng số, quy tắc ngưỡng
-├── sql/                      # ETL chạy theo thứ tự tên file trong từng thư mục
-│   ├── 00_schema.sql         # schema stg, clean, dw, mart, etl (+ run_log, quarantine)
-│   ├── 10_staging/           # nạp CSV thô
-│   ├── 20_clean/             # ép kiểu, cách ly dòng lỗi/trùng, bitmask DQ
-│   ├── 30_dw/                # dim_city, dim_road_class, dim_link, dim_detector, dim_date, dim_time_of_day, fact
-│   ├── 40_mart/              # coverage, MFD, KPI, dss_detector_window, congestion_kpi, detector_day_15min
-│   ├── 50_checks/            # đối soát toàn vẹn, kho siêu dữ liệu
-│   └── export_mode/          # các bước riêng của chế độ nạp từ bản xuất 15 phút
-├── utd19_dw/                 # pipeline (2 chế độ), profiling, export, weather (nguồn ngoài)
-├── utd19_dss/                # DSS: data, baseline, engine, models, scoring, build, evaluate, live, store, dwinfo, api
-├── frontend/                 # React + Vite; bản build sẵn ở frontend/dist (API phục vụ trực tiếp)
 ├── docs/                     # tài liệu thiết kế (.docx) + script sinh tài liệu
 ├── reports/                  # báo cáo đánh giá DSS, bảng CSV, biểu đồ
 ├── tests/                    # pytest: cấu hình, DB, pipeline end-to-end, đối soát, DSS
@@ -107,9 +102,10 @@ hoặc dùng nút đồng hồ để nhảy tới khung bất kỳ. Bản đồ 
 | Tổng quan, Bản đồ, Detector, Cảnh báo | Xếp hạng live, hành động gợi ý, ghi nhận quyết định và đánh giá sau 30′ |
 | Mô hình | Mô hình quyết định (biến quyết định / không kiểm soát / kết quả, sơ đồ ảnh hưởng, kiến trúc 4 phân hệ, phân loại DSS, bảng quyết định), ML, K-means |
 | What-if & goal seeking | Đổi trọng số/ngưỡng xem tác động; goal seeking: cho mục tiêu precision, recall hoặc năng lực ca trực → tìm ngưỡng |
+| Phân tích OLAP | Lọc ngày và đường; drill năm → tháng → ngày → giờ → 15 phút, heatmap ngày trong tuần × giờ, bản đồ và chi tiết detector; bảng phân tích đa chiều đổi `GROUP BY` và sắp xếp theo giá trị, chỉ số giao thông và độ tin cậy dữ liệu ([hướng dẫn OLAP](docs/OLAP.md)) |
 | Kho dữ liệu & ETL | Chế độ nạp, đối soát, dòng bị cách ly, độ phủ theo tháng, lược đồ sao, kho siêu dữ liệu, nhật ký ETL |
 
-Sửa giao diện: `cd frontend && npm install && npm run dev` (cổng 5173, tự chuyển `/api` sang 8000), xong `npm run build`.
+Sửa giao diện: `cd src/frontend && npm install && npm run dev` (cổng 5173, tự chuyển `/api` sang 8000), xong `npm run build`.
 
 ### 3.3. Kiểm thử
 

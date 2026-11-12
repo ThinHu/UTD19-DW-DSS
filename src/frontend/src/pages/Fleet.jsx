@@ -5,7 +5,7 @@ import { Certainty, ConfDot, LevelBadge } from '../components/Widgets.jsx'
 
 const SORTS = { score: 'Điểm ưu tiên', occ: 'Occupancy', detid: 'Mã detector' }
 
-export default function Fleet({ win, meta, st, view, setSelected, notify }) {
+export default function Fleet({ win, meta, st, view, setSelected, notify, setPage }) {
   const [q, setQ] = useState('')
   const [fclass, setFclass] = useState('')
   const [status, setStatus] = useState('')
@@ -23,6 +23,7 @@ export default function Fleet({ win, meta, st, view, setSelected, notify }) {
   const params = view ? { day: view.day, slot: view.slot } : {}
   return (
     <>
+      <button className="ref" onClick={() => setPage('map')}>← Quay lại bản đồ</button>
       <div className="row" style={{ justifyContent: 'space-between' }}>
         <div>
           <div className="eyebrow">Danh mục mạng lưới</div>

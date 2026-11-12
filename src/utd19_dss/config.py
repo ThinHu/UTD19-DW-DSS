@@ -5,7 +5,8 @@ from pathlib import Path
 
 import yaml
 
-BASE_DIR = Path(__file__).resolve().parent.parent
+_PACKAGE_DIR = Path(__file__).resolve().parent
+BASE_DIR = _PACKAGE_DIR.parent.parent if _PACKAGE_DIR.parent.name == "src" else _PACKAGE_DIR.parent
 DEFAULT_CONFIG = BASE_DIR / "config" / "dss.yaml"
 
 

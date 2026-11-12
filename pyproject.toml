@@ -33,8 +33,9 @@ dss = [
 
 [tool.setuptools]
 packages = ["utd19_dw", "utd19_dss"]
+package-dir = {"" = "src"}
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 python_files = ["test_*.py"]
-pythonpath = ["."]
+pythonpath = ["src", "."]

@@ -31,6 +31,8 @@ export const api = {
   dayClusters: () => req('/api/day_clusters'),
   goalSeek: (body) => req('/api/goalseek', { method: 'POST', body: JSON.stringify(body) }),
   dwQuality: () => req('/api/dw/quality'),
+  olapOptions: () => req('/api/olap/options'),
+  olapQuery: (params) => req('/api/olap/query' + qs(params)),
 }
 
 export const LEVEL_KEY = { 'Cao': 'high', 'Trung bình': 'med', 'Thấp': 'low', 'Không đủ dữ liệu': 'nd' }

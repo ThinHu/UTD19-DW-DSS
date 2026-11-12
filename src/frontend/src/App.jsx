@@ -9,9 +9,11 @@ import Alerts from './pages/Alerts.jsx'
 import ModelPage from './pages/ModelPage.jsx'
 import WhatIf from './pages/WhatIf.jsx'
 import Warehouse from './pages/Warehouse.jsx'
+import OLAP from './pages/OLAP.jsx'
 
 const PAGES = [
   { id: 'overview', icon: I.grid, tip: 'Tổng quan ưu tiên', crumb: 'Trung tâm điều hành / Mạng lưới live', title: 'Tổng quan ưu tiên giao thông' },
+  { id: 'olap', icon: I.trend, tip: 'Phân tích OLAP', crumb: 'Kho dữ liệu / OLAP', title: 'Phân tích giao thông đa chiều' },
   { id: 'map', icon: I.map, tip: 'Bản đồ mạng lưới', crumb: 'Trung tâm điều hành / Bản đồ', title: 'Bản đồ detector trung tâm Luzern' },
   { id: 'fleet', icon: I.radio, tip: 'Danh sách detector', crumb: 'Trung tâm điều hành / Mạng lưới / Detector', title: 'Danh sách detector & hàng đợi ưu tiên' },
   { id: 'alerts', icon: I.alert, tip: 'Cảnh báo & nhật ký', crumb: 'Trung tâm điều hành / Cảnh báo', title: 'Cảnh báo, hành động & đánh giá' },
@@ -19,6 +21,7 @@ const PAGES = [
   { id: 'whatif', icon: I.sliders, tip: 'What-if & goal seeking', crumb: 'Mô hình / Phân tích độ nhạy', title: 'Trọng số, ngưỡng, what-if & goal seeking' },
   { id: 'dw', icon: I.db, tip: 'Kho dữ liệu & ETL', crumb: 'Kho dữ liệu / ETL', title: 'Kho dữ liệu: nạp, đối soát & siêu dữ liệu' },
 ]
+const NAV_PAGES = PAGES.filter((p) => p.id !== 'fleet')
 
 export default function App() {
   const [page, setPage] = useState('overview')
@@ -79,7 +82,7 @@ export default function App() {
     <div className="app">
       <aside className="sidebar">
         <Logo />
-        {PAGES.map((p) => (
+        {NAV_PAGES.map((p) => (
           <button key={p.id} className={`nav-btn ${page === p.id ? 'active' : ''}`} onClick={() => setPage(p.id)} aria-label={p.tip}>
             <p.icon /><span className="tip">{p.tip}</span>
           </button>
@@ -104,7 +107,7 @@ export default function App() {
         </header>
 
         <div className="content">
-          {!meta || !st ? <div className="panel empty">{err ? `Không kết nối được API: ${err}` : 'Đang tải dữ liệu…'}</div> : (
+          {page === 'olap' ? <OLAP /> : !meta || !st ? <div className="panel empty">{err ? `Không kết nối được API: ${err}` : 'Đang tải dữ liệu…'}</div> : (
             <>
               {page === 'overview' && <Overview {...ctx} />}
               {page === 'map' && <MapPage {...ctx} />}

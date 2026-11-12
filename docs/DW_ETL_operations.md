@@ -21,7 +21,8 @@ Remove-Item Env:UTD_WORK_DIR
 ```
 
 `UTD_SMOKE_ROWS` giới hạn số dòng staging sau lọc; một lần chạy smoke vẫn thay toàn bộ nội dung DW đích,
-vì vậy luôn đặt `UTD_WORK_DIR` riêng. `--from-export` cần hai file export và hồ sơ detector trong
+vì vậy luôn đặt `UTD_WORK_DIR` riêng. Mã nguồn và SQL nằm trong `src/`; `config/`, `data/` và `reports/` vẫn ở thư mục gốc.
+`--from-export` cần hai file export và hồ sơ detector trong
 `data/raw/luzern_jan_jun/`. Nguồn gốc cần `utd19_u.csv`, `*detector*.csv`, `*link*.csv`.
 
 ## Tính nguyên tử và lịch sử
