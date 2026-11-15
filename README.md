@@ -8,10 +8,9 @@ Kho dữ liệu giao thông đô thị trên bộ **UTD19 — Luzern (01/01–30
 |---|---|---|
 | Data Warehouse (`src/utd19_dw`, `src/sql/`) | ETL staging → clean → star schema (Kimball) → data mart, kiểm tra chất lượng, đối soát, kho siêu dữ liệu | `python -m utd19_dw.pipeline` |
 | DSS engine (`utd19_dss`) | K-means, baseline, tiêu chí C1–C5, Gradient Boosting dự báo 30 phút, trọng số & ngưỡng tối ưu | `python -m utd19_dss.build` |
-| Đánh giá DSS | So sánh chiến lược, ablation, quét ngưỡng, hiệu chỉnh, ổn định → `reports/` | `python -m utd19_dss.evaluate` |
+| Đánh giá DSS | So sánh chiến lược, ablation, quét ngưỡng, hiệu chỉnh, ổn định → `reports/` (sinh lại khi chạy) | `python -m utd19_dss.evaluate` |
 | Backend + dashboard | FastAPI + React (nền sáng), phát lại tháng 6 như luồng live, what-if, goal seeking, OLAP, trang kho dữ liệu & ETL | `uvicorn utd19_dss.api:app --port 8000` |
-| Tài liệu thiết kế | `docs/DSS_Thiet_ke_giai_doan1_Vinh_v5.docx` | `node docs/build_design_doc.js` |
-| Lệnh Make | Các lệnh tắt cho setup, DW, DSS, frontend và tài liệu | `make help` |
+| Lệnh Make | Các lệnh tắt cho setup, DW, DSS và frontend | `make help` |
 
 ## 1. Kết quả chính (tháng 6/2015 — dữ liệu chưa dùng khi dựng)
 
@@ -31,8 +30,6 @@ Giới hạn năng lực ca trực (`config/dss.yaml: scoring.max_high_per_windo
 đổi một phần recall lấy precision và khối lượng việc chịu được ở giờ cao điểm; đặt 0 để bỏ giới hạn. Từ v5.1, giai đoạn
 kiểm định chỉ dùng lịch sử T1–T4 cho tier, cụm detector và lân cận (tránh rò rỉ tháng 5), nên trọng số/ngưỡng khác bản v5 (35/25).
 
-Báo cáo đầy đủ: [`reports/dss_evaluation.md`](reports/dss_evaluation.md) (bản Word: `reports/dss_evaluation.docx`).
-
 ## 2. Cấu trúc thư mục
 
 ```text
@@ -45,10 +42,9 @@ Báo cáo đầy đủ: [`reports/dss_evaluation.md`](reports/dss_evaluation.md)
 │   ├── settings.yaml         # DW: thành phố, khoảng ngày, RAM, FLOW_MAX, luật loại khỏi mart
 │   ├── dq_rules.yaml         # DW: bitmask luật chất lượng dữ liệu
 │   └── dss.yaml              # DSS: chia dữ liệu, luật DQ, K-means, tiêu chí, ML, trọng số, quy tắc ngưỡng
-├── docs/                     # tài liệu thiết kế (.docx) + script sinh tài liệu
-├── reports/                  # báo cáo đánh giá DSS, bảng CSV, biểu đồ
+├── reports/figures/dss/      # hình dùng trong báo cáo (biểu đồ đánh giá, sơ đồ ảnh hưởng, ảnh giao diện)
 ├── tests/                    # pytest: cấu hình, DB, pipeline end-to-end, đối soát, DSS
-└── data/                     # (không đưa lên git) raw/, work/ (DuckDB), export/, dss/ (artifacts)
+└── data/                     # raw/: dữ liệu mẫu kèm repo; work/ (DuckDB), export/, dss/ (artifacts) sinh ra khi chạy
 ```
 
 ## 3. Cài đặt và chạy
@@ -102,7 +98,7 @@ hoặc dùng nút đồng hồ để nhảy tới khung bất kỳ. Bản đồ 
 | Tổng quan, Bản đồ, Detector, Cảnh báo | Xếp hạng live, hành động gợi ý, ghi nhận quyết định và đánh giá sau 30′ |
 | Mô hình | Mô hình quyết định (biến quyết định / không kiểm soát / kết quả, sơ đồ ảnh hưởng, kiến trúc 4 phân hệ, phân loại DSS, bảng quyết định), ML, K-means |
 | What-if & goal seeking | Đổi trọng số/ngưỡng xem tác động; goal seeking: cho mục tiêu precision, recall hoặc năng lực ca trực → tìm ngưỡng |
-| Phân tích OLAP | Lọc ngày và đường; drill năm → tháng → ngày → giờ → 15 phút, heatmap ngày trong tuần × giờ, bản đồ và chi tiết detector; bảng phân tích đa chiều đổi `GROUP BY` và sắp xếp theo giá trị, chỉ số giao thông và độ tin cậy dữ liệu ([hướng dẫn OLAP](docs/OLAP.md)) |
+| Phân tích OLAP | Lọc ngày và đường; drill năm → tháng → ngày → giờ → 15 phút, heatmap ngày trong tuần × giờ, bản đồ và chi tiết detector; bảng phân tích đa chiều đổi `GROUP BY` và sắp xếp theo giá trị, chỉ số giao thông và độ tin cậy dữ liệu |
 | Kho dữ liệu & ETL | Chế độ nạp, đối soát, dòng bị cách ly, độ phủ theo tháng, lược đồ sao, kho siêu dữ liệu, nhật ký ETL |
 
 Sửa giao diện: `cd src/frontend && npm install && npm run dev` (cổng 5173, tự chuyển `/api` sang 8000), xong `npm run build`.
@@ -134,7 +130,7 @@ Understanding traffic capacity of urban networks. *Scientific Reports* 9, 16283.
 
 ## Vận hành ETL và kiểm chứng DW
 
-Xem [hướng dẫn ETL/DQ/logging](docs/DW_ETL_operations.md) cho transaction, lịch sử chạy, views/indexes và lệnh kiểm chứng read-only `python -m utd19_dw.validate`.
+Kiểm chứng read-only kho dữ liệu (transaction, lịch sử chạy, views/indexes): `python -m utd19_dw.validate`.
 
 Đánh giá correctness, Data Quality và query performance:
 
@@ -142,5 +138,4 @@ Xem [hướng dẫn ETL/DQ/logging](docs/DW_ETL_operations.md) cho transaction, 
 .\.venv\Scripts\python.exe -X utf8 -m utd19_dw.assess --repeats 15
 ```
 
-Kết quả: [đánh giá DW](reports/dw_assessment.md), [phạm vi kiểm thử](reports/dw_testing.md),
-[số liệu/SQL/query plans](reports/dw_assessment.json).
+Kết quả được ghi vào `reports/` (sinh lại khi chạy).

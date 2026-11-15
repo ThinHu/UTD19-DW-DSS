@@ -1,6 +1,6 @@
 .DEFAULT_GOAL := help
 .PHONY: help setup dw-profile dw-load dw-load-export dw-weather dw-export test dw-all clean \
-	dss-build dss-evaluate dss-serve frontend-build docs-build
+	dss-build dss-evaluate dss-serve frontend-build
 
 help: ## Hiển thị danh sách lệnh
 	@awk 'BEGIN {FS = ":.*##"; printf "Cách dùng: make <lệnh>\n\nCác lệnh:\n"} /^[a-zA-Z0-9_-]+:.*##/ {printf "  %-20s %s\n", $$1, $$2}' $(MAKEFILE_LIST)
@@ -40,9 +40,6 @@ app-serve: ## Chạy API và dashboard tại http://localhost:8000
 
 frontend-build: ## Build giao diện React/Vite
 	cd src/frontend && npm install && npm run build
-
-docs-build: ## Sinh tài liệu thiết kế DSS từ artifacts
-	node docs/build_design_doc.js data/dss/meta.json docs/DSS_Thiet_ke_giai_doan1_Vinh_v5.docx reports/dss_evaluation.json
 
 clean: ## Xóa database làm việc, dữ liệu xuất và artifacts DSS
 	python -c "import shutil; [shutil.rmtree(p, ignore_errors=True) for p in ['data/work', 'data/export', 'data/dss']]"

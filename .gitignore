@@ -57,7 +57,12 @@ npm-debug.log*
 !data/raw/luzern_jan_jun/*.csv
 !data/raw/luzern_jan_jun/*.gz
 !data/raw/external/*.csv
-!reports/tables/*.csv
 
 # Tệp tạm khi mở tài liệu Word/LibreOffice
 .~lock.*
+
+# Kết quả sinh bởi evaluate/assess: chỉ đưa lên git hình dùng trong báo cáo (reports/figures/dss/)
+reports/*
+!reports/figures/
+reports/figures/*
+!reports/figures/dss/

@@ -88,7 +88,7 @@ export default function App() {
           </button>
         ))}
         <div className="spacer" />
-        <div className="avatar" title="Người vận hành ca trực">AN</div>
+        <div className="avatar" title="Vinh · Người vận hành ca trực">VI</div>
       </aside>
 
       <main className="main">

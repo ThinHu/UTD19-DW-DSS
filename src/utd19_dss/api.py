@@ -451,7 +451,7 @@ class ActionReq(BaseModel):
     action_code: str | None = None
     action_text: str | None = None
     note: str | None = ""
-    operator: str | None = "AN"
+    operator: str | None = "Vinh"
 
 
 @app.post("/api/actions")

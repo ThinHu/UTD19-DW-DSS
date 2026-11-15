@@ -26,7 +26,7 @@ export function ActionDialog({ row, onClose, onSaved }) {
   const save = async () => {
     setBusy(true)
     try {
-      await api.addAction({ detid: row.detid, decision, action_code: row.action_code, action_text: text, note, operator: 'AN' })
+      await api.addAction({ detid: row.detid, decision, action_code: row.action_code, action_text: text, note, operator: 'Vinh' })
       onSaved()
     } finally { setBusy(false) }
   }
